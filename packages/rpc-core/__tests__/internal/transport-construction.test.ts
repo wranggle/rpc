@@ -1,4 +1,4 @@
-import WranggleRpc from '../../src/rpc-core';
+import WranggleRpc from '../../src/core';
 import {RequestPayload} from "../../src/interfaces";
 import {ResponsePayload, RpcTransport, EndpointInfo} from "rpc-core/src/interfaces";
 import { EventEmitter } from 'events';

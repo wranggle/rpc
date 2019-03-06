@@ -1,7 +1,7 @@
 const http = require('http');
 const WebSocket = require('ws');
 import { Server } from 'ws';
-import WranggleRpc from "rpc-core/src/rpc-core";
+import WranggleRpc from "rpc-core/src/core";
 import WebSocketTransport, {WebSocketTransportOpts} from "../src/websocket-transport";
 
 

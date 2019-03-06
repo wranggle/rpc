@@ -1,4 +1,4 @@
-import Rpc from '../src/rpc-core';
+import Rpc from '../src/core';
 import {fakeFixturedConnection_1, FakeRemoteDelegate_1} from "./test-support/fake-connection-fixturing";
 import {waitMs} from "./test-support/time-support";
 

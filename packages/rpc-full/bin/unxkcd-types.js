@@ -7,5 +7,5 @@ const typingsBasename = 'wranggle-rpc.d.ts';
 
 const wrong = fs.readFileSync(path.join(distDir, `rpc-full/src/${typingsBasename}`), 'utf8');
 const content = wrong.replace(/from 'rpc-/g, "from '.\/rpc-");
-// .replace('module "rpc-core/src/rpc-core"', 'module "@wranggle/rpc"');
+// .replace('module "rpc-core/src/core"', 'module "@wranggle/rpc"');
 fs.writeFileSync(path.join(distDir, typingsBasename), content);

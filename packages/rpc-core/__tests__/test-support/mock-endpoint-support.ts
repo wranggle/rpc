@@ -1,5 +1,5 @@
 import LocalObserverTransport, {LocalObserverTransportOpts} from '../../src/local-observer-transport';
-import WranggleRpc from '../../src/rpc-core';
+import WranggleRpc from '../../src/core';
 import {EventEmitter} from 'events';
 import {DelegatedRequestHandlerOpts} from "../../src/interfaces";
 import {IDict, RpcOpts} from "../../src/interfaces";

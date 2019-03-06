@@ -1,4 +1,4 @@
-import WranggleRpc from 'rpc-core/src/rpc-core';
+import WranggleRpc from 'rpc-core/src/core';
 import LocalObserverTransport, {LocalObserverTransportOpts} from 'rpc-core/src/local-observer-transport';
 import BrowserExtensionTransport from 'rpc-browser-extension-transport/src/browser-extension-transport';
 import PostMessageTransport from 'rpc-post-message-transport/src/post-message-transport';
@@ -23,7 +23,7 @@ export {
 type Klass = new (...args: any[]) => RpcTransport;
 
 // todo: figure out how to extend/merge RpcOpts with transport shortcuts in typescript
-// declare module "rpc-core/src/rpc-core" {
+// declare module "rpc-core/src/core" {
 //   export class WranggleRpc {
 //     protected constructor(rpcOpts?: Partial<RpcOptsWthTransports>);
 //   }
