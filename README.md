@@ -59,7 +59,7 @@ The main _@wranggle/rpc_ package ships with the following transports:
 * [PostMessageTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-post-message-transport/): messaging over window.postMessage. (When communicating across browser windows/iframes.)
 * [WebSocketTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-websocket-transport/): messaging over [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket). (Communicating between WebSocket client and server) 
 
-Additional, a [Relay](https://github.com/wranggle/rpc/tree/master/packages/rpc-relay) can be used as a bridge between any two transports, when a message needs to hop across an intermediate window/process. You can also create your own [custom transport](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#Custom-Transport). 
+Additionally, a [Relay](https://github.com/wranggle/rpc/tree/master/packages/rpc-relay) can be used as a bridge between any two transports, when a message needs to hop across an intermediate window/process. You can also create your own [custom transport](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#Custom-Transport). 
 
 Each transport has its own configuration options. Take a look at the README for each of the ones you use.
 
@@ -157,7 +157,7 @@ You can pass in options as a third parameter to *addRequestHandler*:
 * **useCallback** If you prefer Node-style callbacks over promises, set *useCallback* to true and your request handler will be passed a callback when run. Instead of using your handler function's returned value or promise to resolve the remote request, the callback will now resolve it. 
 * ** context** sets the "this" binding when running your function. (But remember that "this" cannot be changed for arrow functions.)  
 
-A convenience meethod `rpc.addRequestHandlers(functionsByMethodName, opts)` is also available. It loops over the passed in object, registering each function.
+A convenience method `rpc.addRequestHandlers(functionsByMethodName, opts)` is also available. It loops over the passed in object, registering each function.
 
 
 ## WranggleRpc options
