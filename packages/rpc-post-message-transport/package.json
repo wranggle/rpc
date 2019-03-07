@@ -4,13 +4,19 @@
   "description": "WranggleRpc transport using window.postMessage for windows and iframes",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "build": "../../bin/build-standalone.js post-message-transport",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"
   },
-  "author": "Jeff Ferber <jeff@wranggle.com>",
-  "main": "out/post-message-transport.js",
+  "main": "dist/cjs/post-message-transport.js",
+  "module": "dist/es2015/post-message-transport.js",
+  "types": "dist/es2015/post-message-transport.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
+  "author": "Jeff Ferber <jeff@wranggle.com>",
   "devDependencies": {
     "@types/node": "^11.9.5",
     "@wranggle/rpc-core": "^0.1.0",
@@ -20,8 +26,8 @@
   "keywords": [
     "wranggle-rpc",
     "rpc",
-    "ipc",
-    "electron"
+    "postMessage",
+    "wranggle-rpc-transport"    
   ],
   "publishConfig": {
     "access": "public"

@@ -3,7 +3,9 @@
   "description": "Lerna repository for WranggleRpc and its bundled transports. Main functionality in rpc-core, main distribution in rpc-full",
   "author": "Jeff Ferber",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "clean": "lerna run clean",
+    "build": "lerna run build"
   },
   "private": true,
   "workspaces": [
@@ -14,6 +16,7 @@
     "@types/node": "^11.9.4",
     "jest": "^24.1.0",
     "lerna": "^3.13.0",
+    "lodash": "^4.17.11",
     "typescript": "^3.3.3"
   },
   "license": "Apache-2.0"

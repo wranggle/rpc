@@ -1,5 +1,5 @@
 // import WranggleRpc from 'rpc-core/src/core';
-import {RequestPayload, IDict, ResponsePayload} from "rpc-core/src/interfaces";
+import {RequestPayload, IDict, ResponsePayload} from "@wranggle/rpc-core/src/interfaces";
 import PostMessageTransport from "../src/post-message-transport";
 import { EventEmitter } from 'events';
 

@@ -1,7 +1,7 @@
 import ElectronTransport, {ElectronTransportOpts} from '../src/electron-transport';
-import {RequestPayload, ResponsePayload} from "rpc-core/src/interfaces";
+import {RequestPayload, ResponsePayload} from "@wranggle/rpc-core/src/interfaces";
 import { EventEmitter } from 'events';
-import {buildFakeRequestPayload} from "rpc-core/__tests__/test-support/fake-payload-support";
+import {buildFakeRequestPayload} from "@wranggle/rpc-core/__tests__/test-support/fake-payload-support";
 
 
 const ChannelForTest = 'ElectronChannelForTest';

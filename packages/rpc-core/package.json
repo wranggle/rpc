@@ -5,11 +5,17 @@
   "author": "Jeff Ferber <jeff@wranggle.com>",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "build": "../../bin/build-standalone.js core",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"
   },
-  "main": "out/rpc-core.js",
+  "main": "dist/cjs/core.js",
+  "module": "dist/es2015/core.js",
+  "types": "dist/es2015/core.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"

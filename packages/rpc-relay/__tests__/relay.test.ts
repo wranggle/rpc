@@ -1,8 +1,7 @@
-import {RequestPayload, ResponsePayload} from "rpc-core/src/interfaces";
 import { EventEmitter } from 'events';
-import LocalObserverTransport from 'rpc-core/src/local-observer-transport';
+import LocalObserverTransport from '@wranggle/rpc-core/src/local-observer-transport';
 import Relay from "../src/relay";
-import WranggleRpc from "rpc-core/src/core";
+import WranggleRpc from "@wranggle/rpc-core/src/core";
 
 
 describe('@wranggle/rpc-relay', () => {

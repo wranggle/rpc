@@ -1,6 +1,6 @@
 import {EventEmitter} from "events"; 
 import {EndpointInfo, RequestPayload, ResponsePayload, RpcOpts, RpcTransport} from "./interfaces";
-import {registerTransport} from "rpc-core/src/transport-shortcut-registration";
+import {registerTransport} from "./transport-shortcut-registration";
 
 
 export interface LocalObserverTransportOpts {

@@ -4,11 +4,17 @@
   "description": "WranggleRpc transport for browser extensions",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "build": "../../bin/build-standalone.js browser-extension-transport",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"    
   },
-  "main": "lib/browser-extension-transport.js",
+  "main": "dist/cjs/browser-extension-transport.js",
+  "module": "dist/es2015/browser-extension-transport.js",
+  "types": "dist/es2015/browser-extension-transport.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"

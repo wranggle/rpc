@@ -1,12 +1,18 @@
 {
  "extends": "../../tsconfig.json",
  "compilerOptions": {
-  "module": "es6",
-  "outDir": "./out",
+  "target": "es6",
+  "outDir": "./out/@wranggle",
   "declaration": true,
-  "declarationDir": "dist"
+  "declarationDir": "dist/@wranggle",
+  "moduleResolution": "Node",
+  "paths": {
+   "@wranggle/*": [
+    "./*"
+   ]
+  }
  },
  "include": [
-   "./src"
+  "./src"
  ]
 }

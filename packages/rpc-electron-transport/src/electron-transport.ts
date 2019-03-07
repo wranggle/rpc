@@ -1,6 +1,5 @@
-import {EndpointInfo, ResponsePayload, RpcTransport} from "rpc-core/src/interfaces";
-import {RequestPayload} from "rpc-core/src/interfaces";
-import {registerTransport} from "rpc-core/src/transport-shortcut-registration";
+import {EndpointInfo, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 
 export interface ElectronTransportOpts {

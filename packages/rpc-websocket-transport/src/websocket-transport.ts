@@ -1,9 +1,11 @@
 // import WranggleRpc from '@wranggle/rpc-core';
-import {RequestPayload, ResponsePayload, RpcTransport} from "rpc-core/src/interfaces";
+import {RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
 // @ts-ignore
 import stringify from 'fast-safe-stringify';
 import ReconnectingWebSocket from './hacked-reconnecting-websocket/reconnecting-websocket';
-import {registerTransport} from "rpc-core/src/transport-shortcut-registration";
+
+
+import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 
 const WebSocketEventTypes = [ 'open', 'close', 'message', 'error' ];

@@ -4,13 +4,19 @@
   "description": "WranggleRpc relay for bridging transports, when a message needs to hop across an intermediate window/process",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "build": "../../bin/build-standalone.js relay",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"
   },
-  "author": "Jeff Ferber <jeff@wranggle.com>",
-  "main": "out/relay.js",
+  "main": "dist/cjs/relay.js",
+  "module": "dist/es2015/relay.js",
+  "types": "dist/es2015/relay.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
+  "author": "Jeff Ferber <jeff@wranggle.com>",
   "dependencies": {
     "kvid": "^1.2.4"
   },
@@ -24,6 +30,11 @@
   "publishConfig": {
     "access": "public"
   },
+  "keywords": [
+    "wranggle-rpc",
+    "rpc",
+    "wranggle-rpc-transport"    
+  ],  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wranggle/rpc.git"

@@ -1,5 +1,4 @@
-import {ResponsePayload, RpcTransport} from "rpc-core/src/interfaces";
-import {RequestPayload} from "rpc-core/src/interfaces";
+import {RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
 const kvid = require('kvid');
 
 

@@ -4,11 +4,17 @@
   "description": "WranggleRpc transport for WebSocket clients and servers",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest"
+    "test": "jest",
+    "build": "../../bin/build-standalone.js websocket-transport",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"
   },
-  "main": "out/websocket-transport.js",
+  "main": "dist/cjs/websocket-transport.js",
+  "module": "dist/es2015/websocket-transport.js",
+  "types": "dist/es2015/websocket-transport.d.ts",
   "files": [
-    "out"
+    "dist"
   ],
   "publishConfig": {
     "access": "public"
@@ -23,7 +29,8 @@
   "keywords": [
     "wranggle-rpc",
     "rpc",
-    "websocket"
+    "websocket",
+    "wranggle-rpc-transport"    
   ],
   "bugs": {
     "url": "https://github.com/wranggle/rpc/issues"
@@ -38,7 +45,8 @@
   ],
   "dependencies": {
     "@wranggle/rpc-core": "*",
-    "fast-safe-stringify": "^2.0.6"
+    "fast-safe-stringify": "^2.0.6",
+    "reconnecting-websocket": "^4.1.10"
   },
   "devDependencies": {
     "@types/ws": "^6.0.1",
