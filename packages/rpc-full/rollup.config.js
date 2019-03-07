@@ -18,7 +18,7 @@ export default {
   // input: 'src/wranggle-rpc.ts',
   output: [
     {
-      file: 'dist/wranggle-rpc.js',
+      file: 'dist/wranggle-rpc.min.js',
       format: 'umd', // or cjs
       name: 'WranggleRpc',
       exports: 'named',
