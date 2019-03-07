@@ -3,13 +3,13 @@ const ts = require('typescript');
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from 'rollup-plugin-commonjs';
 import includePaths from 'rollup-plugin-includepaths';
+import { terser } from "rollup-plugin-terser";
 // import typescript from 'rollup-plugin-typescript2';
 // todo: import sourceMaps from 'rollup-plugin-sourcemaps'
 
 const rootDir = path.resolve(__dirname, '../..');
 const packagesDir = path.join(rootDir, 'packages');
 // const nodeModulesDir = path.join(rootDir, 'node_modules');
-
 
 
 export default {
@@ -55,6 +55,8 @@ export default {
     //     include: [ packagesDir ],
     //   },
     // }),
+    
+    terser(),
   ],
   
 }
