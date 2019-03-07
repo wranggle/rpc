@@ -6,10 +6,9 @@ import ElectronTransport from '@wranggle/rpc-electron-transport/src/electron-tra
 import WebSocketTransport from '@wranggle/rpc-websocket-transport/src/websocket-transport';
 import Relay from '@wranggle/rpc-relay/src/relay';
 
-
-export default WranggleRpc;
-
-// not sure if this is needed but the bundling and distributions are in flux and it might help..
+// I am fighting with Rollup on this... want to support WranggleRpc as a constructor, and also keep references to transports
+//   and such on it in UMD build. (to support `new WranggleRpc()` and also `const { Relay } = WranggleRpc`
+// This seems to work:
 Object.assign(WranggleRpc, {
   BrowserExtensionTransport,
   ElectronTransport,
@@ -19,20 +18,14 @@ Object.assign(WranggleRpc, {
   WebSocketTransport,
   WranggleRpc,
 });
+export default WranggleRpc;
 
-export {
-  BrowserExtensionTransport,
-  ElectronTransport,
-  LocalObserverTransport,
-  PostMessageTransport,
-  Relay,
-  WebSocketTransport,
-  WranggleRpc,
-}
+// @ts-ignore
+global.WranggleRpc = WranggleRpc;
 
 
+// todo: figure out how to extend/merge typescript RpcOpts in each transport shortcut
 // type Klass = new (...args: any[]) => RpcTransport;
-// todo: figure out how to extend/merge RpcOpts with transport shortcuts in typescript
 // declare module "rpc-core/src/core" {
 //   export class WranggleRpc {
 //     protected constructor(rpcOpts?: Partial<RpcOptsWthTransports>);

@@ -80,20 +80,19 @@ Endpoint for parent window:
 ```javascript
 const iframe = document.querySelector('#my-iframe');
 const rpc = new WranggleRpc({
-    channel: 'our-same-origin-frames-channel',
-    postMessage: {
-      targetWindow: iframe.contentWindow,
-    }
-  });
+  channel: 'our-same-origin-frames-channel',
+  postMessage: {
+    targetWindow: iframe.contentWindow,
+  }
+});
 ```  
 
 Endpoint inside iframe:
 ```javascript
-const iframe = document.querySelector('#my-iframe');
 const rpc = new WranggleRpc({
-    channel: 'our-same-origin-frames-channel',
-    postMessage: {
-      targetWindow: window,
-    }
-  });
+  channel: 'our-same-origin-frames-channel',
+  postMessage: {
+    targetWindow: window,
+  }
+});
 ```  

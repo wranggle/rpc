@@ -1,5 +1,6 @@
 import {RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
-const kvid = require('kvid');
+// @ts-ignore
+import kvid from 'kvid';
 
 
 export interface RelayOpts {

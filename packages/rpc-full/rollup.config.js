@@ -4,6 +4,7 @@ import resolve from "rollup-plugin-node-resolve";
 import commonjs from 'rollup-plugin-commonjs';
 import includePaths from 'rollup-plugin-includepaths';
 import { terser } from "rollup-plugin-terser";
+import globals from 'rollup-plugin-node-globals'
 // import typescript from 'rollup-plugin-typescript2';
 // todo: import sourceMaps from 'rollup-plugin-sourcemaps'
 
@@ -43,19 +44,7 @@ export default {
       browser: true,
     }),
     commonjs(),
-
-    // tmp - note: didn't get rollup-plugin-typescript2 working so using rollup on output of tsc. todo: try again harder:
-    // typescript({
-    //   verbosity: 2,
-    //   typescript: ts,
-    //   tsconfigOverride: {
-    //     useTsconfigDeclarationDir: true,
-    //     compilerOptions: {
-    //     },
-    //     include: [ packagesDir ],
-    //   },
-    // }),
-    
+    globals(),
     terser(),
   ],
   
