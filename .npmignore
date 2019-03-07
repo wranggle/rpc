@@ -1,0 +1,5 @@
+# note: using package.json "files" for dist
+
+*.tmp
+__tests__
+src

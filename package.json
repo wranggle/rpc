@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-monorepo",
-  "description": "Lerna repository for WranggleRpc and its bundled transports. Main functionality in rpc-core, main distribution in rpc-full",
+  "description": "Combined repository for WranggleRpc and its bundled transports. Main functionality in rpc-core, main distribution in rpc-full",
   "author": "Jeff Ferber",
   "scripts": {
     "test": "jest",
