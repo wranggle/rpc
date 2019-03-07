@@ -7,7 +7,7 @@
     "clean": "lerna run clean",
     "build": "lerna run build",
     "push:version": "lerna version",
-    "lerna:publish": "lerna publish from-git"
+    "npm:publish": "lerna publish from-git"
   },
   "private": true,
   "workspaces": [
