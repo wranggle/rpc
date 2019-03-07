@@ -2,7 +2,8 @@
   "name": "@wranggle/rpc",
   "version": "0.2.2",
   "description": "Call functions that live and run in a different JavaScript window/process",
-  "main": "dist/wranggle-rpc.min.js",
+  "main": "dist/wranggle-rpc.cjs.js",
+  "browser": "dist/wranggle-rpc.min.js",
   "types": "dist/wranggle-rpc.d.ts",
   "scripts": {
     "build": "run-s clean tsc rollup tsc:unxkcd-types",

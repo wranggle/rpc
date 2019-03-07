@@ -20,10 +20,14 @@ export default {
   output: [
     {
       file: 'dist/wranggle-rpc.min.js',
-      format: 'umd', // or cjs
+      format: 'umd',
       name: 'WranggleRpc',
       exports: 'named',
-      // sourcemap: true
+    },
+    {
+      file: 'dist/wranggle-rpc.cjs.js',
+      format: 'cjs',
+      exports: 'default'
     }
   ],
   // todo: if any large-ish dependencies are added, will need to use external option, and/or the "jail" or "only" options on resolve plugin
