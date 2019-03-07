@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-electron-transport",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "WranggleRpc transport for Electron.js",
   "scripts": {
     "tsc": "tsc",
@@ -23,8 +23,6 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wranggle/rpc.git"
-  },
-  "devDependencies": {
   },
   "keywords": [
     "wranggle-rpc",

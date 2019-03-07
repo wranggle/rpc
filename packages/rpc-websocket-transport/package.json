@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-websocket-transport",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "WranggleRpc transport for WebSocket clients and servers",
   "scripts": {
     "tsc": "tsc",
@@ -30,7 +30,7 @@
     "wranggle-rpc",
     "rpc",
     "websocket",
-    "wranggle-rpc-transport"    
+    "wranggle-rpc-transport"
   ],
   "bugs": {
     "url": "https://github.com/wranggle/rpc/issues"
@@ -44,7 +44,7 @@
     }
   ],
   "dependencies": {
-    "@wranggle/rpc-core": "*",
+    "@wranggle/rpc-core": "^0.2.0",
     "fast-safe-stringify": "^2.0.6",
     "reconnecting-websocket": "^4.1.10"
   },
