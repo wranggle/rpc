@@ -128,13 +128,13 @@ Options for `addRequestHandlerDelegate`:
     shouldRun: [ 'create', 'update' ]
   })  
   ```
-  Alternatively, provide a filter function. The function must return `true` for the method to run. Eg:
+  Alternatively, provide a filter function. The type signature of this filter function is: `(methodName: string, delegatedModel: object, ...userArgs: any[]) => boolean` Eg:
   ```javascript
   rpc.addRequestHandlerDelegate(myModel, {
     shouldRun: (methodName) => methodName === 'create' || methodName === 'update'
   });      
   ```
-  The type signature of this filter function is: `(methodName: string, delegatedModel: object, ...userArgs: any[]) => boolean`
+  The function must return `true` for the method to run.
 
 * **ignoreInherited**: When true, inherited methods are not run. Only methods on the current class can run, not its *super*. (Only methods on the immediate object and its prototype will run.) Default is *true*.
 * **ignoreWithUnderscorePrefix**: when true, does not run method if it starts with an underscore "_". Default is *true*.
@@ -155,7 +155,7 @@ The full type signature is: `rpc.addRequestHandler(methodName: string, handlerFn
 
 You can pass in options as a third parameter to *addRequestHandler*:
 * **useCallback** If you prefer Node-style callbacks over promises, set *useCallback* to true and your request handler will be passed a callback when run. Instead of using your handler function's returned value or promise to resolve the remote request, the callback will now resolve it. 
-* ** context** sets the "this" binding when running your function. (But remember that "this" cannot be changed for arrow functions.)  
+* **context** sets the "this" binding when running your function. (But remember that "this" cannot be changed for arrow functions.)  
 
 A convenience method `rpc.addRequestHandlers(functionsByMethodName, opts)` is also available. It loops over the passed in object, registering each function.
 
@@ -257,5 +257,5 @@ The _RemotePromise_ also offers some additonal methods:
 
 ## Individual Packages
 
-The `@wranggle/rpc` package bundles all of the transports plus their dependencies into a single CommonJs file. If your environment will accept ES6 and `import` statements, it's better to load just the modules you use. 
+The `@wranggle/rpc` package bundles all of the transports plus their dependencies into a single UMD js file. If your environment will accept ES6 and `import` statements, it's better to load just the modules you use. 
 Each transport is available as a separate package on NPM and you can import WranggleRpc itself from [@wranggle/rpc-core](https://www.npmjs.com/package/@wranggle/rpc-core).

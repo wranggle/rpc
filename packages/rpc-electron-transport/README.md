@@ -53,7 +53,7 @@ const rpc = new WranggleRpc({
 
 This transport has two required options: `ipcSender` and `ipcReceiver`. 
 
-### Endpoint is in Main process
+### Endpoint in the Main process
 
 * **ipcReceiver** Set it to _ipcMain_, from the import: `const { ipcMain } = require('electron')`
 
@@ -76,7 +76,7 @@ uiRenderer.webContents.on('did-finish-load', startUsingIt(rpc));
 ```
 
 
-## Endpoint in a renderer/browser process
+### Endpoint in a renderer/browser process
 
 Set both *ipcReceiver* and *ipcSender* to Electron's `ipcRenderer`.
 
