@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-relay",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "WranggleRpc relay for bridging transports, when a message needs to hop across an intermediate window/process",
   "scripts": {
     "tsc": "tsc",

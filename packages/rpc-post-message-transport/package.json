@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-post-message-transport",
-  "version": "0.2.0",
+  "version": "0.2.2",
   "description": "WranggleRpc transport using window.postMessage for windows and iframes",
   "scripts": {
     "tsc": "tsc",
