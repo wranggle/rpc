@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "Call functions that live and run in a different JavaScript window/process",
   "main": "dist/wranggle-rpc.cjs.js",
   "browser": "dist/wranggle-rpc.min.js",
