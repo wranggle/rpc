@@ -255,7 +255,12 @@ The _RemotePromise_ also offers some additonal methods:
 
 
 
-## Individual Packages
+## Distributions
 
-The `@wranggle/rpc` package bundles all of the transports plus their dependencies into a single UMD js file. If your environment will accept ES6 and `import` statements, it's better to load just the modules you use. 
-Each transport is available as a separate package on NPM and you can import WranggleRpc itself from [@wranggle/rpc-core](https://www.npmjs.com/package/@wranggle/rpc-core).
+* [@wranggle/rpc](https://www.npmjs.com/package/@wranggle/rpc) bundles all of the transports plus their dependencies into a single js file (27K). It is also available for browsers: 
+  ```html
+  <script src="https://cdn.jsdelivr.net/npm/@wranggle/rpc"></script>
+  ``` 
+* [@wranggle/rpc-core](https://www.npmjs.com/package/@wranggle/rpc) as an individual package, plus each transport you use. (See their own README for links.) Each is published to npmjs in CommonJs and ES2015 module formats.   
+    
+    

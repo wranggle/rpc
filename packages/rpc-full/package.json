@@ -6,10 +6,11 @@
   "browser": "dist/wranggle-rpc.min.js",
   "types": "dist/wranggle-rpc.d.ts",
   "scripts": {
-    "build": "run-s clean tsc rollup tsc:unxkcd-types",
+    "build": "run-s clean tsc rollup tsc:unxkcd-types generate:readme",
     "rollup": "rollup -c",
     "tsc": "tsc",
     "tsc:unxkcd-types": "./bin/unxkcd-types.js",
+    "generate:readme": "./bin/npm-readme.js",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
