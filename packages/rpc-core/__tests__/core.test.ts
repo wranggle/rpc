@@ -1,9 +1,12 @@
-import Rpc from '../src/core';
+import WranggleRpc from '../src/core';
 import {fakeFixturedConnection_1, FakeRemoteDelegate_1} from "./test-support/fake-connection-fixturing";
 import {waitMs} from "./test-support/time-support";
+import LocalObserverTransport from "../src/local-observer-transport";
+import { EventEmitter } from 'events';
+import MockLogger from "./test-support/mock-logger";
 
 
-describe('@wranggle/rpc-core', () => {
+describe('@wranggle/core', () => {
 
   test('basic round trip', async () => {
     const { remoteControl } = fakeFixturedConnection_1();
@@ -52,6 +55,19 @@ describe('@wranggle/rpc-core', () => {
     expect(error.methodName).toBe('_secrets');
     expect(val_1).toBe('again');
     expect(val_2).toBeUndefined();
+  });
+
+  test('debugHandler built and set on transport', async () => {
+    const logger = new MockLogger();
+    const rpc = new WranggleRpc<any>({
+      transport: new LocalObserverTransport({ observer: new EventEmitter() }),
+      debug: { logger },
+      allRequestOpts: { rsvp: false }
+    });
+    await rpc.remoteInterface().boo();
+    const msg = logger.getLogMessage(0);
+    expect(msg).toMatch('[LocalObserverTransport] TransportSendingPayload:');
+    expect(msg).toMatch('boo');
   });
 });
 

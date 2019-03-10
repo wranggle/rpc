@@ -1,6 +1,7 @@
 import RemoteRequest from "./remote-request";
 import {buildTransport} from "./transport-construction";
-import {IDict, RequestPayload, ResponsePayload, RemotePromise, RpcOpts, RpcTransport, ConnectionStatus, ConnectionStatusOpts, EndpointInfo} from "../interfaces";
+import {IDict, RequestPayload, ResponsePayload, RemotePromise, RpcOpts, RpcTransport, ConnectionStatus, ConnectionStatusOpts, EndpointInfo, DebugHandler, LogActivity, DebugHandlerActivityData} from "../interfaces";
+import {buildDebugHandler} from "../util/logging-support";
 
 
 const Protocol = 'WranggleRpc-1';
@@ -27,6 +28,7 @@ export default class Router {
   private _rootOpts = <Partial<RpcOpts>>{};
   private _onValidatedRequest: (methodName: string, userArgs: any[]) => Promise<any>;
   private _preparseFilters = <PreparseFilter[]>[];
+  private debugHandler?: DebugHandler | false;
 
   constructor(opts: IRouterOpts) {
     this._onValidatedRequest = opts.onValidatedRequest;
@@ -34,12 +36,12 @@ export default class Router {
 
   useTransport(transportOpts: RpcTransport | object | string) {
     const transport = this.transport = buildTransport(transportOpts);
-    if (transport) {
-      transport.listen(this._onMessage.bind(this));
-      transport.endpointSenderId = this.senderId;
-
-      // todo: send handshake message?
+    transport.endpointSenderId = this.senderId;
+    if (transport.debugHandler === void(0)) {
+      transport.debugHandler = buildDebugHandler(transport.constructor.name, this._rootOpts.debug);
     }
+    transport.listen(this._onMessage.bind(this));
+    // todo: send handshake message?
   }
 
   stopTransport(): void {
@@ -79,6 +81,9 @@ export default class Router {
     if (typeof opts.preparseAllIncomingMessages === 'function') {
       this._preparseFilters.push(opts.preparseAllIncomingMessages);
     }
+    if (opts.hasOwnProperty('debug')) {
+      this.debugHandler = buildDebugHandler('WranggleRpc:core', opts.debug as any);
+    }
   }
 
   pendingRequestIds(): string[] {
@@ -98,18 +103,20 @@ export default class Router {
       return;
     }
     if (!this._isForUs(payload)) {
+      this._debug(LogActivity.IgnoringPayload, { message: `Ignoring payload intended for other recipient`, payload });
       return;
     }
     let parsedPayload = payload;
     this._preparseFilters.forEach(filter => {
       let current;
       if (parsedPayload === false) {
+        this._debug(LogActivity.ReceivedInvalidPayload, { message: `Payload failed to pass optional preparseFilter`, payload });
         return;
       }
       try {
         current = filter.call(null, parsedPayload);
-      } catch (err) {
-        console.error('Error in preparseAllIncomingMessages filter. Invalidating incoming message.', err);
+      } catch (error) {
+        this._debug(LogActivity.ReportError, { message: `Error in preparseAllIncomingMessages filter: ${error.message}`, error });
         current = false;
       }
       if (typeof current === 'object') {
@@ -191,6 +198,17 @@ export default class Router {
     return {
       senderId: this.senderId as string
     };
+  }
+
+  private _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    this.debugHandler(Object.assign({
+      activity,
+      endpointSenderId: this.senderId,
+      channel: this.channel,
+    }, data));
   }
 }
 

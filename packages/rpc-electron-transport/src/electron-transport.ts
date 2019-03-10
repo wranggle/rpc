@@ -1,4 +1,4 @@
-import {EndpointInfo, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
 import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 
@@ -38,6 +38,8 @@ export interface ElectronTransportOpts {
    * its ipcChannelSending.
    */
   ipcChannelReceiving?: string;
+
+  debugHandler?: DebugHandler | false;
 }
 
 const DefaultElectronChannel = 'ElectronTransportForWranggleRpc';
@@ -51,6 +53,7 @@ export default class ElectronTransport implements RpcTransport {
   private readonly ipcChannelReceiving: string;
   private _listenHandler?: (payload: RequestPayload | ResponsePayload) => void;
   endpointSenderId!: string | void;
+  debugHandler?: DebugHandler | false;
 
   constructor(opts: ElectronTransportOpts) {
     if (!opts || !_isIpcSender(opts.ipcSender)) {
@@ -70,6 +73,7 @@ export default class ElectronTransport implements RpcTransport {
     this._removeExistingListener();
     this._listenHandler = (payload: RequestPayload | ResponsePayload) => {
       if (!this._isStopped) {
+        this._debug(LogActivity.TransportReceivingMessage, { payload });
         rpcHandler(payload);
       }
     };
@@ -83,11 +87,13 @@ export default class ElectronTransport implements RpcTransport {
     if (this._isStopped) {
       return;
     }
+    this._debug(LogActivity.TransportSendingPayload, { payload });
     this.sender.send(this.ipcChannelSending, payload);
   }
 
   stopTransport(): void {
     this._isStopped = true;
+    this._debug(LogActivity.TransportStopping, {});
     this._removeExistingListener();
   }
 
@@ -95,6 +101,15 @@ export default class ElectronTransport implements RpcTransport {
     this._listenHandler && this.receiver.removeListener(this.ipcChannelReceiving, this._listenHandler);
   }
 
+  _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    const { ipcChannelSending, ipcChannelReceiving, endpointSenderId } = this;
+    this.debugHandler(Object.assign({
+      activity, ipcChannelSending, ipcChannelReceiving, endpointSenderId
+    }, data));
+  }
 }
 
 

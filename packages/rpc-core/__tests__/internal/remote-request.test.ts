@@ -1,5 +1,5 @@
-import RemoteRequest from 'rpc-core/src/internal/remote-request';
-import FlightReceipt from 'rpc-core/src/internal/flight-receipt';
+import RemoteRequest from '../../src/internal/remote-request';
+import FlightReceipt from '../../src/internal/flight-receipt';
 
 
 
@@ -35,17 +35,17 @@ describe('@wranggle/rpc-core/remote-request', () => {
     expect(f1 instanceof FlightReceipt);
   });
 
-  test('accept Node.js-style callbacks', async () => {
-    let testResult;
+  test('accept Node-style callbacks', done => {
     const cb = (err: any, res: string) => {
-      testResult = res;
+      expect(res).toBe('ok');
+      done();
     };
     const req = buildRequest('someMethod', 'whatever', cb);
     expect(!!req.nodejsCallback).toBe(true);
     req.buildPayload({});
-    await req.flightReceipt().resolveNow('ok');
-    expect(testResult).toBe('ok');
+    req.flightReceipt().forceResolve('ok');
   });
+
 
   describe('enforce timeout', () => {
     // todo: implement

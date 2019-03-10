@@ -50,17 +50,27 @@ describe('@wranggle/rpc-core/flight-receipt', () => {
         expect(remotePromise.isPending()).toBe(false);
       });
 
-      test('resolveNow', async () => {
+      test('forceResolve', async () => {
+        remotePromise.forceResolve('hurry');
+        await remotePromise;
+        expect(remotePromise.isPending()).toBe(false);
+        const val = await remotePromise;
+        expect(val).toBe('hurry');
+      });
+
+      test('resolveNow alias works', async () => {
+        // @ts-ignore
         remotePromise.resolveNow('hurry');
+        await remotePromise;
         expect(remotePromise.isPending()).toBe(false);
         const val = await remotePromise;
         expect(val).toBe('hurry');
       });
 
       test('ignore late-arriving resolution when forcing with `resolveNow`', async () => {
-        setTimeout(() => remotePromise.resolveNow('good'), 1);
-        setTimeout(() => mockResolve('bad'), 3);
-        await waitMs(7);
+        setTimeout(() => remotePromise.forceResolve('good'), 1);
+        setTimeout(() => mockResolve('bad'), 6);
+        await waitMs(15);
         const val = await remotePromise;
         expect(val).toBe('good');
       });
@@ -81,7 +91,7 @@ describe('@wranggle/rpc-core/flight-receipt', () => {
         expect(remotePromise.isPending()).toBe(true);
         let reason;
         try {
-          remotePromise.rejectNow('testForceRejectingRemotePromise');
+          remotePromise.forceReject('testForceRejectingRemotePromise');
           await remotePromise;
         } catch (err) {
           reason = err;
@@ -96,7 +106,7 @@ describe('@wranggle/rpc-core/flight-receipt', () => {
         // The user can also set it on the RemotePromise, tested here.
 
         test('applying updateTimeout', async () => {
-          setTimeout(() => remotePromise.resolveNow('good'), 10);
+          setTimeout(() => remotePromise.forceResolve('good'), 10);
           remotePromise.updateTimeout(1);
           let reason;
           try {
@@ -110,7 +120,7 @@ describe('@wranggle/rpc-core/flight-receipt', () => {
 
         test('modify timeout', async () => {
           setTimeout(() => {
-            remotePromise.resolveNow('good');
+            remotePromise.forceResolve('good');
           }, 20);
           remotePromise.updateTimeout(10);
           remotePromise.updateTimeout(30);

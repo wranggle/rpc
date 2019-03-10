@@ -1,4 +1,4 @@
-import {RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
 // @ts-ignore
 import kvid from 'kvid';
 
@@ -25,6 +25,8 @@ export interface RelayOpts {
    * A function for filtering out messages. When present, it must return `true` for the message to be relayed.
    */
   shouldRelay?: (payload: RequestPayload | ResponsePayload) => boolean;
+
+  debugHandler?: DebugHandler | false;
 }
 
 
@@ -33,6 +35,7 @@ export default class Relay {
   private readonly _left: RpcTransport;
   private readonly _right: RpcTransport;
   private _shouldRelay?: ((payload: RequestPayload | ResponsePayload) => boolean) | void;
+  debugHandler?: DebugHandler | false;
 
 
   constructor(opts: RelayOpts) {
@@ -83,12 +86,35 @@ export default class Relay {
         if (!Array.isArray(payload.transportMeta.relays) || !payload.transportMeta.relays.find(r => r === relayId)) {
           payload.transportMeta.relays = (payload.transportMeta.relays || []).concat([ this._relayId ]);
           if (typeof this._shouldRelay !== 'function' || this._shouldRelay.call(null, payload) === true) {
+            this._debug(LogActivity.RelaySendingPayload, { payload, direction: from === this._left ? 'left-to-right' : 'right-to-left' });
             to.sendMessage(payload);
+          } else {
+            this._debug(LogActivity.RelayIgnoringMessage, { message: 'shouldRelay did not return `true` so ignoring message' });
           }
+        } else {
+          this._debug(LogActivity.RelayIgnoringMessage, { message: 'Ignoring echo of message already relayed' });
         }
+      } else {
+        this._debug(LogActivity.RelayIgnoringMessage, { message: 'Ignoring non-WranggleRpc message' });
       }
     });
   }
+
+  _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    // @ts-ignore
+    const location = global.location && global.location.href;
+    const res = Object.assign({
+      activity,
+    }, data);
+    if (location) {
+      res.location = location;
+    }
+    this.debugHandler(res);
+  }
+
 }
 
 

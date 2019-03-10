@@ -3,6 +3,8 @@ const WebSocket = require('ws');
 import { Server } from 'ws';
 import WranggleRpc from "@wranggle/rpc-core/src/core";
 import WebSocketTransport, {WebSocketTransportOpts} from "../src/websocket-transport";
+import MockLogger from "@wranggle/rpc-core/__tests__/test-support/mock-logger";
+import { buildDebugHandler } from "@wranggle/rpc-core/src/util/logging-support";
 
 
 describe('@wranggle/rpc-websocket-transport.ts', () => {
@@ -96,6 +98,27 @@ describe('@wranggle/rpc-websocket-transport.ts', () => {
     const val = await rpc.remoteInterface().hello('there');
     expect(val).toBe('Hello there');
   });
+
+
+  test('debugHandler', async () => {
+    const logger = new MockLogger();
+    transport = await promisedConnectedTransport();
+    transport.debugHandler = buildDebugHandler('WebsocketTransportTest', { logger });
+    transport.endpointSenderId = 'wsFakeEndpoint9911';
+    const rpc = new WranggleRpc<RemoteServer>({ transport });
+    await rpc.remoteInterface().hello('again');
+    expect(logger.stack.length).toBe(2);
+    const logSend = logger.getFirstMessage();
+    expect(logSend).toMatch(/^\[WebsocketTransportTest] TransportSendingPayload/);
+    expect(logSend).toMatch(/"methodName": "hello"/);
+    expect(logSend).toMatch(/websocketUrl/);
+
+    const logReceive = logger.getLastMessage();
+    expect(logReceive).toMatch(/TransportReceivingMessage/);
+    expect(logReceive).toMatch(/endpointSenderId/);
+    expect(logReceive).toMatch(/endpointSenderId/);
+  });
+
 });
 
 

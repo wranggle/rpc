@@ -1,30 +1,37 @@
 // import WranggleRpc from 'rpc-core/src/core';
-import {RequestPayload, IDict, ResponsePayload} from "@wranggle/rpc-core/src/interfaces";
-import PostMessageTransport from "../src/post-message-transport";
+import {RequestPayload, IDict, ResponsePayload, DebugHandler} from "@wranggle/rpc-core/src/interfaces";
+import PostMessageTransport, {PostMessageTransportOpts} from "../src/post-message-transport";
 import { EventEmitter } from 'events';
+import {testTransportDebugHandlerReceive, testTransportDebugHandlerSend} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
 
 
 const SomeOrigin = 'https://test.local';
 
 
 describe('@wranggle/rpc-post-message-transport', () => {
+  let mockWindow: any;
+
+  beforeEach(()=> {
+    mockWindow = null;
+  });
+
+  const buildMockWindowAndTransport = (opts=<Partial<PostMessageTransportOpts>>{}) => {
+    mockWindow = new MockWindow();
+    return new PostMessageTransport(Object.assign({
+      targetWindow: mockWindow,
+      sendToOrigin: SomeOrigin,
+    }, opts));
+  };
 
   describe('shouldReceive', () => {
     let lastMessage: any;
-    let mockWindow: any;
 
     beforeEach(()=> {
       lastMessage = null;
-      mockWindow = null;
     });
 
-    const buildTransportAndFixturing = (shouldReceiveOpt: any) => {
-      mockWindow = new MockWindow();
-      const transport = new PostMessageTransport({
-        targetWindow: mockWindow,
-        sendToOrigin: SomeOrigin,
-        shouldReceive: shouldReceiveOpt,
-      });
+    const buildTransportAndFixturing = (shouldReceive: any) => {
+      const transport = buildMockWindowAndTransport({ shouldReceive });
       transport.listen((payload: RequestPayload | ResponsePayload) => {
         lastMessage = payload;
       });
@@ -48,21 +55,30 @@ describe('@wranggle/rpc-post-message-transport', () => {
       expect(lastMessage.bb).toBe(22);
     });
 
+    testTransportDebugHandlerReceive((debugHandler: DebugHandler, payload: RequestPayload) => {
+      const transport = buildTransportAndFixturing(SomeOrigin);
+      transport.debugHandler = debugHandler;
+      transport.endpointSenderId = 'thisWindowEndpoint0202';
+      mockWindow.fakeReceive(payload, SomeOrigin);
+    }, [ SomeOrigin, 'thisWindowEndpoint0202' ]);
   });
 
   test('includes correct targetOrigin when calling postMessage', () => {
-    const mockWindow = new MockWindow();
-    const transport = new PostMessageTransport({
-      targetWindow: mockWindow,
+    const transport = buildMockWindowAndTransport({
       sendToOrigin: 'https://iframes.test.local',
       shouldReceive: SomeOrigin,
     });
-
     mockWindow.postMessage = jest.fn();
     const payload = { hi: 5 };
     // @ts-ignore
     transport.sendMessage(payload);
     expect(mockWindow.postMessage).toHaveBeenCalledWith(payload, 'https://iframes.test.local');
+  });
+
+  testTransportDebugHandlerSend((debugHandler: DebugHandler, payload: RequestPayload) => {
+    const transport = buildMockWindowAndTransport();
+    transport.debugHandler = debugHandler;
+    transport.sendMessage(payload);
   });
 
 

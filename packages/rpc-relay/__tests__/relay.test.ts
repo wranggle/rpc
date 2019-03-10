@@ -2,6 +2,8 @@ import { EventEmitter } from 'events';
 import LocalObserverTransport from '@wranggle/rpc-core/src/local-observer-transport';
 import Relay from "../src/relay";
 import WranggleRpc from "@wranggle/rpc-core/src/core";
+import MockLogger from "@wranggle/rpc-core/__tests__/test-support/mock-logger";
+import { buildDebugHandler } from "@wranggle/rpc-core/src/util/logging-support";
 
 
 describe('@wranggle/rpc-relay', () => {
@@ -72,7 +74,22 @@ describe('@wranggle/rpc-relay', () => {
     expect(middleLeftTransport.stopTransport).toHaveBeenCalled();
     expect(middleRightTransport.stopTransport).toHaveBeenCalled();
   });
-  
+
+  test('debugHandler', async () => {
+    const logger = new MockLogger();
+    buildRpc();
+    relayTransport.debugHandler = buildDebugHandler('RelayTransportTest', { logger });
+    await leftRpc.remoteInterface().sing();
+    const logRequest = logger.findMessage('requestId');
+    expect(logRequest).toMatch(/\[RelayTransportTest] RelaySendingPayload/);
+    expect(logRequest).toMatch(/"direction": "left-to-right"/);
+    expect(logRequest).toMatch(/fakeMiddle/);
+    
+    const logResponse = logger.findMessage('respondingTo');
+    expect(logResponse).toMatch(/RelaySendingPayload/);
+    expect(logResponse).toMatch(/"direction": "right-to-left"/);
+  });
+
   // maybe todo: test('adds relayId to payload transportMeta', () => { });
 
 });

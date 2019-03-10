@@ -1,5 +1,11 @@
 // import WranggleRpc from '@wranggle/rpc-core';
-import {RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {
+  DebugHandler, DebugHandlerActivityData,
+  LogActivity,
+  RequestPayload,
+  ResponsePayload,
+  RpcTransport
+} from "@wranggle/rpc-core/src/interfaces";
 // @ts-ignore
 import stringify from 'fast-safe-stringify';
 import ReconnectingWebSocket from './hacked-reconnecting-websocket/reconnecting-websocket';
@@ -46,6 +52,7 @@ export interface WebSocketTransportOpts {
    */
   serverSocket?: WebSocket | (() => WebSocket) | Promise<WebSocket>;
 
+  debugHandler?: DebugHandler | false;
 }
 
 
@@ -56,9 +63,11 @@ export default class WebSocketTransport implements RpcTransport {
   private readonly isClientSide: boolean;
   private _ws?: WebSocket;
   endpointSenderId!: string | void;
+  debugHandler?: DebugHandler | false;
+  private _opts: WebSocketTransportOpts;
 
   constructor(opts: WebSocketTransportOpts) {
-    opts = opts || {};
+    opts = this._opts = opts || {};
     let { serverSocket, websocketUrl, clientSocket } = opts;
 
     const isClient = this.isClientSide = !!(websocketUrl || clientSocket);
@@ -84,9 +93,10 @@ export default class WebSocketTransport implements RpcTransport {
         let rawData = _extractRawPayloadString(args[args.length - 1]);
         try {
           payload = JSON.parse(rawData || '{}');
+          this._debug(LogActivity.TransportReceivingMessage, { payload });
           rpcHandler(payload);
-        } catch (err) {
-          console.warn('Ignoring invalid json message', rawData);
+        } catch (error) {
+          this._debug(LogActivity.ReportWarning, { message: 'Ignoring invalid json message', rawData, error });
         }
       }
     };
@@ -104,9 +114,10 @@ export default class WebSocketTransport implements RpcTransport {
     }
     this._promisedSocket.then((ws) => {
       try {
+        this._debug(LogActivity.TransportSendingPayload, { payload });
         ws.send(stringify(payload));
-      } catch (err) {
-        console.warn('WebSocketTransport failed to send message:', err);
+      } catch (error) {
+        this._debug(LogActivity.ReportWarning, { message: 'WebSocketTransport failed to send message', error });
       }
     });
   }
@@ -115,6 +126,7 @@ export default class WebSocketTransport implements RpcTransport {
     this._isStopped = true;
     this._removeExistingRpcListener();
     this._promisedSocket.then((ws: any) => { // todo: option to skip socket.close(), for the case of a shared socket
+      this._debug(LogActivity.TransportStopping, {});
       WebSocketEventTypes.forEach((eventType: string) => {
         delete ws[eventType];
         if (typeof ws.removeEventListener === 'function') {
@@ -174,6 +186,22 @@ export default class WebSocketTransport implements RpcTransport {
 
   _initServer(serverSocket: SocketBuilder): Promise<WebSocket> {
     return Promise.resolve(typeof serverSocket === 'function' ? serverSocket() : serverSocket);
+  }
+
+  _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    const isClient = this.isClientSide;
+    const res = Object.assign({
+      activity,
+      isClient,
+      endpointSenderId: this.endpointSenderId,
+    }, data);
+    if (this._opts.websocketUrl) {
+      res.websocketUrl = this._opts.websocketUrl;
+    }
+    this.debugHandler(res);
   }
 
   static buildReconnectingWebSocket(...args: any[]): ReconnectingWebSocket {

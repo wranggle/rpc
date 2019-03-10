@@ -52,12 +52,13 @@ export default class FlightReceipt {
     };
   }
 
-  resolveNow(...results: any[]): void {
+
+  forceResolve(...results: any[]): void {
     this._markResolution(RequestStatus.ForcedResult, null, ...results);
     // todo: _nodejsCallback case
   }
 
-  rejectNow(reason: any): void {
+  forceReject(reason: any): void {
     this._markResolution(RequestStatus.ForcedError, reason);
     // todo: _nodejsCallback case
   }
@@ -102,7 +103,7 @@ export default class FlightReceipt {
 
   private _ensurePromiseDecorated(promise: Promise<any>): void {
     // @ts-ignore
-    if (typeof promise.resolveNow === 'function') {
+    if (typeof promise.forceResolve === 'function') {
       return;
     }
     composeExtendedPromise(promise, this, FlightReceipt.prototype);
@@ -127,24 +128,35 @@ export default class FlightReceipt {
     }
     this.completedAt = this.rsvp ? Date.now() : this.requestedAt;
     this.status = status;
-    const { resolve, reject } = this.responseResolver;
-    if (error) {
-      try {
-        reject(error);
-      } catch (err) {
-        console.error('Uncaught error in rejected RemotePromise', this.info(), err);
+
+    // todo: track and use timeout only when needed (when request opts change after remote request created)
+    setTimeout(() => { // needs to be in nextTick because sendRemoteRequest uses a nextTick and that should execute first.
+      const { resolve, reject } = this.responseResolver;
+      if (error) {
+        try {
+          reject(error);
+        } catch (err) {
+          // todo: use debugHandler
+          console.error('Uncaught error in rejected RemotePromise', this.info(), err);
+        }
+      } else {
+        try {
+          resolve(...result);
+        } catch (err) {
+          // todo: use debugHandler
+          console.error('Uncaught error in RemotePromise response handler', this.info(), err);
+        }
       }
-    } else {
-      try {
-        resolve(...result);
-      } catch (err) {
-        console.error('Uncaught error in RemotePromise response handler', this.info(), err);
-      }
-    }
+    }, 0);
   }
 
 }
 
+// aliases, just in case someone is actually using it (doubtful, very few downloads)
+// @ts-ignore
+FlightReceipt.prototype.resolveNow = FlightReceipt.prototype.forceResolve;
+// @ts-ignore
+FlightReceipt.prototype.rejectNow = FlightReceipt.prototype.rejectNow;
 
 export {
   TimeoutErrorCode

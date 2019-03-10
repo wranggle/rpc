@@ -26,9 +26,9 @@ function addMessageListener(listener) {
 function removeMessageListener(listener) {
 }
 
-function warnIfErrorCb() {
-  return () => {};
-}
+// function warnIfErrorCb() {
+//   return () => {};
+// }
 
 
 module.exports = {
@@ -39,5 +39,5 @@ module.exports = {
   removeMessageListener,
   sendMessageToTab,
   sendRuntimeMessage,
-  warnIfErrorCb,
+  // warnIfErrorCb,
 };

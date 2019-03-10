@@ -168,8 +168,9 @@ You can set some general options when you construct your WranggleRpc endpoint an
 
 Main options:
 
-* **allRequestOpts**. Sets default request options for all remote requests sent from this endpoint. When making the remote calls, the defaults will be refined/overriden with values set by the `setDefaultRequestOptsForMethod` method, which are refined further by options set directly on the call's [RemotePromise](#remote-requests). (*RequestOpts* like timeouts.)
-* **channel**: *string*. Unless the remote endpoint uses the exact same *channel* value, WranggleRpc will ignore its remote requests. Recommended when you use more than one WranggleRpc endpoint in the same window/process, but be careful to use the exact same value.
+* **allRequestOpts**. *`RequestOpts`*. Sets default request options for all remote requests sent from this endpoint. When making the remote calls, the defaults will be refined/overriden with values set by the `setDefaultRequestOptsForMethod` method, which are refined further by options set directly on the call's [RemotePromise](#remote-requests). (*RequestOpts* like timeouts.)
+* **channel**: *`string`*. Unless the remote endpoint uses the exact same *channel* value, WranggleRpc will ignore its remote requests. Recommended when you use more than one WranggleRpc endpoint in the same window/process, but be careful to use the exact same value.
+* **debug**: *`boolean | DebugHandler | DebugHandlerOpts`* Enables debugging/logging. When setting up transports, especially when a relay is involved, consider setting this to `true` for default logging to the console. More granular options and the ability to provide a different logger are available as well, see [debug options](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#debugging). 
 * **transport**: The value of this is passed to the WranggleRpc *useTransport* method, setting up the transport which is required before the endpoint can be used. 
 
 Additionally, each transport adds its own shortcut to WranggleRpc options. For example, the "electron" options here are used as a shortcut for setting the endpoint's transport to `new ElectronTransport({ ipcSender: ipcRenderer })`:
@@ -210,7 +211,7 @@ Covered in other sections:
 * Request handler methods: see `addRequestHandler` and `addRequestHandlerDelegate` in Request Handler section.
 * `remoteInterface()` See section on Remote Requests 
 * `rpc.opts(opts: RpcOpts)` see section on WranggleRpc Options 
-* [Secondary/uncommon](https://www.npmjs.com/package/@wranggle/rpc-core#additional) method documentation
+* [Secondary/uncommon](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#additional) method documentation
 
 
 ## Remote Requests
@@ -251,8 +252,8 @@ The _RemotePromise_ also offers some additonal methods:
   If a response isn't received in the specified time in milliseconds, the RemotePromise will be rejected.
   (Note: you can set a default timeout by method name using `rpc.setDefaultRequestOptsForMethod` or a default for all rpc requests in `rpc.opts`. 
 
-* _resolveNow(...results)_ force the RemotePromise to resolve immediately
-* _rejectNow(reason)_ force reject the RemotePromise
+* _forceResolve(...results)_ force the RemotePromise to resolve immediately
+* _forceReject(reason)_ force reject the RemotePromise
 * _info()_ returns info about about the remote request. (timestamps, status)
 
 

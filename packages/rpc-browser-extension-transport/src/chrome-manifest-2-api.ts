@@ -38,14 +38,14 @@ export function removeMessageListener(listener: Callback) {
   chrome.runtime.onMessage.removeListener(listener);
 }
 
-export function warnIfErrorCb() {
-  return (err: any) => {
-    // @ts-ignore
-    if (chrome.runtime.lastError || err) {
-      // @ts-ignore
-      console.warn(chrome.runtime.lastError || err);
-    }
-    // @ts-ignore
-    return Promise.resolve();
-  }
-}
+// export function warnIfErrorCb() {
+//   return (err: any) => {
+//     // @ts-ignore
+//     if (chrome.runtime.lastError || err) {
+//       // @ts-ignore
+//       console.warn(chrome.runtime.lastError || err);
+//     }
+//     // @ts-ignore
+//     return Promise.resolve();
+//   }
+// }

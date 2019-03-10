@@ -1,7 +1,6 @@
-import {EndpointInfo, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import { RequestPayload, ResponsePayload, RpcTransport, LogActivity, DebugHandlerActivityData, DebugHandler } from "@wranggle/rpc-core/src/interfaces";
 import * as chromeApi from './chrome-manifest-2-api';
 import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
-
 
 type ChromeListener = (payload: (RequestPayload | ResponsePayload), sender: any) => void;
 
@@ -41,6 +40,8 @@ export interface BrowserExtensionTransportOpts {
    * @param payload
    */
   permitMessage?: (payload: (RequestPayload | ResponsePayload), chromeSender: any) => boolean;
+
+  debugHandler?: DebugHandler | false;
 }
 
 
@@ -50,6 +51,7 @@ export default class BrowserExtensionTransport implements RpcTransport {
   private readonly _isContentScript: boolean;
   private readonly _chromeExtensionId!: string;
   private _messageHandler?: ChromeListener;
+  debugHandler?: DebugHandler | false;
   endpointSenderId!: string | void;
 
   constructor(opts=<BrowserExtensionTransportOpts>{}) {
@@ -60,6 +62,7 @@ export default class BrowserExtensionTransport implements RpcTransport {
     this._isContentScript = chromeApi.isContentScript();
     this._chromeExtensionId = chromeApi.getChromeRuntimeId();
     this._opts = this._initOpts(opts);
+    this.debugHandler = opts.debugHandler;
   }
 
   listen(onMessage: (payload: (RequestPayload | ResponsePayload)) => void): void {
@@ -70,21 +73,26 @@ export default class BrowserExtensionTransport implements RpcTransport {
     const { skipExtensionIdCheck, receiveFromTabId, permitMessage } = this._opts;
     const chromeRuntimeId = this._chromeExtensionId;
     this._messageHandler = (payload, sender) => {
-      if (skipExtensionIdCheck || chromeRuntimeId !== (sender || {}).id) {
-        // console.debug('Ignoring message because sender.id does not match chrome.runtime.id.');
+      const senderId = (sender || {}).id;
+      if (skipExtensionIdCheck || chromeRuntimeId !== senderId) {
+        this._debug(LogActivity.TransportIgnoringMessage, { message: `Ignoring message because sender.id "${ senderId }" does not match chrome.runtime.id "${chromeRuntimeId}"`, payload });
         return;
       }
       if (receiveFromTabId) {
         const tabId = sender && sender.tab && sender.tab.id;
         if (receiveFromTabId !== tabId) {
+          this._debug(LogActivity.TransportIgnoringMessage, { message: `Ignoring message intended for tab ${tabId}, filtering out all but tab ${receiveFromTabId}`, payload });
           return;
         }
       }
       if (typeof permitMessage === 'function' && permitMessage(payload, sender) !== true) {
+        this._debug(LogActivity.TransportIgnoringMessage, { message: `Custom "permitMessage" filter rejected message`, payload });
         return;
       }
       payload.transportMeta = payload.transportMeta || {};
       payload.transportMeta.sender = sender;
+
+      this._debug(LogActivity.TransportReceivingMessage, { payload });
       onMessage(payload);
     };
     
@@ -95,15 +103,19 @@ export default class BrowserExtensionTransport implements RpcTransport {
     if (this._stopped) {
       return;
     }
-    if (this._opts.sendToTabId) {
-      chromeApi.sendMessageToTab(this._opts.sendToTabId, payload);
+    const sendToTabId = this._opts.sendToTabId;
+    if (sendToTabId) {
+      this._debug(LogActivity.TransportSendingPayload, { sendToTabId, payload });
+      chromeApi.sendMessageToTab(sendToTabId, payload);
     } else {
+      this._debug(LogActivity.TransportSendingPayload, { payload });
       chromeApi.sendRuntimeMessage(payload);
     }
   }
 
   stopTransport(): void {
     this._stopped = true;
+    this._debug(LogActivity.TransportStopping, {});
     this._removeListener();
   }
 
@@ -118,9 +130,21 @@ export default class BrowserExtensionTransport implements RpcTransport {
     opts.receiveFromTabId = opts.receiveFromTabId || opts.forTabId;
     opts.sendToTabId = opts.sendToTabId || opts.forTabId;
     if (this._isContentScript && (opts.receiveFromTabId || opts.sendToTabId)) {
-      console.warn('The "forTabId", "sendToTabId", and "receiveFromTabId" options can only be applied in the main browser extension context, not in a content script. Ignoring.');
+      this._debug(LogActivity.ReportWarning, { message: 'The "forTabId", "sendToTabId", and "receiveFromTabId" options can only be applied in the main browser extension context, not in a content script. Ignoring.' });
     }
     return opts;
+  }
+
+  _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    const { sendToTabId, receiveFromTabId, skipExtensionIdCheck, permitMessage } = this._opts;
+    this.debugHandler(Object.assign({
+      activity, sendToTabId, receiveFromTabId, skipExtensionIdCheck,
+      endpointSenderId: this.endpointSenderId,
+      hasPermitMessageFilter: !!permitMessage
+    }, data));
   }
 }
 

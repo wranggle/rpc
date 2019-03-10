@@ -1,4 +1,4 @@
-import { RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
 import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 
@@ -44,6 +44,8 @@ export interface PostMessageTransportOpts {
    * If different windows are needed for sending and receiving, use this option to specify the window for receiving messages.
    */
   receivingWindow?: any;
+
+  debugHandler?: DebugHandler | false;
 }
 
 
@@ -54,6 +56,7 @@ export default class PostMessageTransport implements RpcTransport {
   private _isStopped = false;
   private _windowEventListener?: (payload: RequestPayload | ResponsePayload) => void;
   endpointSenderId!: string | void;
+  debugHandler?: DebugHandler | false;
 
   constructor(opts: PostMessageTransportOpts) {
     const sendingWindow = opts.sendingWindow || opts.targetWindow;
@@ -90,8 +93,12 @@ export default class PostMessageTransport implements RpcTransport {
       } else if (typeof shouldReceive === 'string') {
         permitted = origin === shouldReceive;
       }
+      const payload = evt.data;
       if (permitted === true) {
-        rpcHandler(evt.data);
+        this._debug(LogActivity.TransportReceivingMessage, { payload });
+        rpcHandler(payload);
+      } else {
+        this._debug(LogActivity.TransportIgnoringMessage, { payload });
       }
     };
 
@@ -102,11 +109,13 @@ export default class PostMessageTransport implements RpcTransport {
     if (this._isStopped) {
       return;
     }
+    this._debug(LogActivity.TransportSendingPayload, { payload });
     this._sendingWindow.postMessage(payload, this._opts.sendToOrigin);
   }
 
   stopTransport(): void {
     this._isStopped = true;
+    this._debug(LogActivity.TransportStopping, {});
     this._removeExistingListener();
   }
 
@@ -114,6 +123,21 @@ export default class PostMessageTransport implements RpcTransport {
     this._windowEventListener && this._receivingWindow && this._receivingWindow.removeEventListener('message', this._windowEventListener);
   }
 
+
+  _debug(activity: LogActivity, data: Partial<DebugHandlerActivityData>) {
+    if (!this.debugHandler) {
+      return;
+    }
+    const { sendToOrigin } = this._opts;
+    // @ts-ignore
+    const location = global.location && global.location.href;
+    this.debugHandler(Object.assign({
+      activity,
+      location,
+      endpointSenderId: this.endpointSenderId,
+      sendToOrigin,
+    }, data));
+  }
 }
 
 registerTransport('postMessage', (opts: PostMessageTransportOpts) => new PostMessageTransport(opts));

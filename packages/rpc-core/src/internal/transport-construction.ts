@@ -5,7 +5,7 @@ import {getTransportRegistry} from "../transport-shortcut-registration";
 
 // todo: put transport shortcut directly on RpcOpts. Eg: `new WranggleRpc({ electron: myElectronOpts })`
 //   I don't feel like a typescript research project at the moment.. need to check if each transport could declare the same module or whatever and add it own option
-export function buildTransport(val: any): RpcTransport | void{
+export function buildTransport(val: any): RpcTransport {
   if (!val) {
     throw new Error('Invalid transport options');
   }
@@ -30,7 +30,7 @@ export function buildTransport(val: any): RpcTransport | void{
     }
   }
   if (!transport) {
-    console.warn('Unable to creat transport instance from passed in options:', val);
+    throw new Error('Unable to creat transport instance from passed in options');
   }
   return transport;
 }

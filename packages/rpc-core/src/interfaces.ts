@@ -1,4 +1,5 @@
 import {CommonPayload} from "./internal/router";
+import {DebugOpts} from "./util/logging-support";
 
 
 export declare abstract class WranggleRpcTs<T> {
@@ -66,8 +67,7 @@ export interface RpcOpts {
    */
   transport: RpcTransport | object | string;
 
-  // todo: accept a logger
-  // logger: ILogger;
+  debug?: DebugHandler | DebugOpts | boolean;
 
 
 // ~~~~~~~~~~~~~~~~~ placeholder hack. todo: move to packages/rpc-full
@@ -133,9 +133,9 @@ export interface RemotePromise<T> extends Promise<T> {
    */
   info(): RequestInfo;
 
-  resolveNow(...results: any[]): void;
+  forceResolve(...results: any[]): void;
 
-  rejectNow(reason: any): void;
+  forceReject(reason: any): void;
 }
 
 export interface RequestInfo {
@@ -216,6 +216,7 @@ export interface RpcTransport {
 
   endpointSenderId: string | void;
 
+  debugHandler?: DebugHandler | false;
   // todo: reportDisconnect? connection status? decide where to keep features like heartbeat
 }
 
@@ -236,20 +237,14 @@ export interface EndpointInfo {
   senderId: string;
 }
 
-// todo: find existing interface?
-export interface ILogger {
-  log(...args: any[]): void;
-  info(...args: any[]): void;
-  warn(...args: any[]): void;
-  error(...args: any[]): void;
-}
-
 export interface ConnectionStatus {
 
 }
 export interface ConnectionStatusOpts {
   timeout: number;
 }
+
+
 
 export enum RequestStatus {
   Pending = 'Pending',
@@ -261,5 +256,33 @@ export enum RequestStatus {
   SkipRsvp = 'SkipRsvp',
 }
 
-// error exporting LocalObserverTransport.. todo: ts acrobatics
-// but this is ok: export { LocalObserverTransportOpts } from './local-observer-transport';
+
+export type DebugHandler = (data: DebugHandlerActivityData) => void;
+
+export enum LogActivity {
+  TransportSendingPayload = 'TransportSendingPayload',
+  TransportReceivingMessage = 'TransportReceivingMessage',
+  TransportStopping = 'TransportStopping',
+  TransportIgnoringMessage = 'TransportIgnoringMessage',
+  RelaySendingPayload = 'RelaySendingPayload',
+  RelayIgnoringMessage = 'RelayIgnoringMessage ',
+
+  ReceivedInvalidPayload = 'ReceivedInvalidPayload',
+  IgnoringPayload = 'IgnoringPayload',
+
+  Misc = 'MiscActivity',
+
+  ReportWarning = 'Warning',
+  ReportError = 'Error',
+}
+
+export interface DebugHandlerActivityData {
+  activity?: LogActivity;
+  payload?: RequestPayload | ResponsePayload;
+  endpointSenderId?: string;
+  originator?: string;
+  message?: string;
+  // todo: ignoreFilteredPayloads?: boolean;
+  [key: string]: any;
+}
+

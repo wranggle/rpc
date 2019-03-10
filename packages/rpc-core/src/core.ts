@@ -12,6 +12,7 @@ import {registerTransport} from "./transport-shortcut-registration";
 const DefaultRpcOpts = {
   channel: 'CommonChannel',
   requireRemoteMethodRegistration: false,
+  debug: { minimal: true },
   // later: option to change from bi-directional (both initiating and responding to requests) to request-only or respond-only
 };
 
@@ -19,7 +20,6 @@ const DefaultRpcOpts = {
 export default class WranggleRpc<T> implements WranggleRpcTs<T> { // todo: rename back to WranggleCore after ts trouble resolved
   private _rootOpts = <RpcOpts>{};
   private _requestOptsByMethod = <IDict<RequestOpts>>{};
-  // private logger = <ILogger>console;
 
   private readonly router: Router;
   private readonly requestHandler = new RequestHandler();
