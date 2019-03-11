@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-relay",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "WranggleRpc relay for bridging transports, when a message needs to hop across an intermediate window/process",
   "scripts": {
     "tsc": "tsc",
@@ -22,7 +22,7 @@
   },
   "devDependencies": {
     "@types/node": "^11.9.5",
-    "@wranggle/rpc-core": "^0.2.0",
+    "@wranggle/rpc-core": "^0.3.0",
     "ts-jest": "^24.0.0"
   },
   "homepage": "https://github.com/wranggle/rpc#readme",
