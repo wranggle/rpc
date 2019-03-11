@@ -38,7 +38,7 @@ When a `DebugOpts` object is not provided, behaves as:
 
 Or you can set`DebugOpts` with a an object:
 * **logger** *`Logger`* A logging object that contains "log", "warn" and "error" functions. `console` is used by default.
-* **messageEcho** *`string`* Determines how to treat RPC messages received by the same endpoint that sent them are. They can be common and harmless in some situations, or the sign of a misconfigured endpoint in other situations. When set to "ignore" they are silently dropped. When set to "summarize" a short message is logged, without showing payload data. When set to "display" they are logged fully. Default is "summarize".  
+* **messageEcho** *`string`* Determines how to treat RPC messages received by the same endpoint that sent them. Such messages can be common and harmless in some situations, or the sign of a misconfigured endpoint in other situations. When set to "ignore" they are silently dropped. When set to "summarize" a short message is logged, without showing payload data. When set to "display" they are logged fully. Default is "summarize".  
 * **minimal** *`boolean`* When `true`, only warnings and errors are displayed.
  
 
