@@ -2,7 +2,7 @@ import RemoteRequest from "./internal/remote-request";
 import Router from "./internal/router";
 import RequestHandler from "./internal/request-handler";
 import { extractTransportOpts } from "./internal/transport-construction";
-import {DelegatedRequestHandlerOpts, IDict, RequestOpts, RpcTransport, RpcOpts, WranggleRpcTs, RemotePromise, NamedRequestHandlerOpts} from "./interfaces";
+import {DelegatedRequestHandlerOpts, IDict, RequestOpts, RpcTransport, RpcOpts, RemotePromise, NamedRequestHandlerOpts} from "./interfaces";
 // @ts-ignore
 import kvid from 'kvid';
 import {registerTransport} from "./transport-shortcut-registration";
@@ -11,13 +11,11 @@ import {registerTransport} from "./transport-shortcut-registration";
 
 const DefaultRpcOpts = {
   channel: 'CommonChannel',
-  requireRemoteMethodRegistration: false,
   debug: { minimal: true },
-  // later: option to change from bi-directional (both initiating and responding to requests) to request-only or respond-only
 };
 
 
-export default class WranggleRpc<T> implements WranggleRpcTs<T> { // todo: rename back to WranggleCore after ts trouble resolved
+export default class WranggleRpc<T> {
   private _rootOpts = <RpcOpts>{};
   private _requestOptsByMethod = <IDict<RequestOpts>>{};
 
@@ -36,7 +34,7 @@ export default class WranggleRpc<T> implements WranggleRpcTs<T> { // todo: renam
    * Incoming requests are passed to methods on the specified `delegate` object if it passes the `DelegateOpts` filters specified.
    *
    */
-  addRequestHandlerDelegate(delegate: any, opts?: DelegatedRequestHandlerOpts) {
+  addRequestHandlerDelegate(delegate: any, opts?: DelegatedRequestHandlerOpts): void {
     this.requestHandler.addRequestHandlerDelegate(delegate, opts);
   }
 

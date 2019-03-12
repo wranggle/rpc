@@ -2,37 +2,6 @@ import {CommonPayload} from "./internal/router";
 import {DebugOpts} from "./util/logging-support";
 
 
-export declare abstract class WranggleRpcTs<T> {
-  
-  protected constructor(rpcOpts?: Partial<RpcOpts>);
-
-  addRequestHandlerDelegate(delegate: any, opts?: DelegatedRequestHandlerOpts): void;
-
-
-  addRequestHandler(methodName: string, fn: (...args: any[]) => any, context?: any): void;
-
-
-  addRequestHandlers(fnByMethodName: IDict<(...args: any[]) => any>, context?: any): void;
-
-
-  remoteInterface(): T;
-
-
-  useTransport(transportOrOpts: RpcTransport | object | string): void;
-
-
-  opts(opts: Partial<RpcOpts>): void;
-
-
-  makeRemoteRequest(methodName: string, userArgs: any[], requestOpts: RequestOpts): RemotePromise<any>;  // make generic? makeRemoteRequest<T>(methodName: string, userArgs: any[], requestOpts: RequestOpts): Promise<any> | RemotePromise<T>;
-
-
-  setDefaultRequestOptsForMethod(methodName: string, requestOpts: RequestOpts): void;
-
-  // todo:  checkConnectionStatus(opts: ConnectionStatusOpts): Promise<ConnectionStatus>;
-}
-
-
 export interface RpcOpts {
   /**
    * Channel name or id. Unless the remote endpoint uses the exact same *channel* value, WranggleRpc will ignore its remote requests. *channel*.
