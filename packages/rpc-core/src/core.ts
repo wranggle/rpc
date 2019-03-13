@@ -6,7 +6,7 @@ import {DelegatedRequestHandlerOpts, IDict, RequestOpts, RpcTransport, RpcOpts, 
 // @ts-ignore
 import kvid from 'kvid';
 import {registerTransport} from "./transport-shortcut-registration";
-
+import LocalObserverTransport from "./local-observer-transport";
 
 
 const DefaultRpcOpts = {
@@ -159,3 +159,7 @@ export default class WranggleRpc<T> {
   }
 }
 
+export {
+  LocalObserverTransport,
+}
+export * from './interfaces';

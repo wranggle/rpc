@@ -67,7 +67,7 @@ Note: if using an iframe, remember to pass in its `contentWindow` (eg, `myIframe
 
 * **sendToOrigin** The `targetOrigin` value used when calling `targetWindow.postMessage`. Set it the origin / base url of the **receiving** window. (Eg, `https://example.edu`) If this option is not set, it will use the current origin (meaning both communicating windows must be on the same origin.)
 
-* **shouldReceive** Filter that determines if a received message should be used or ignored. It a function is passed, it will called with the event.origin string of the received message and only accept the message if the function returns `true`. 
+* **shouldReceive** Filter that determines if a received message should be used or ignored. It a function is passed, it is passed the event.origin string of the received message, accepting the message only if the function returns `true`. 
 If a string is passed, it will expect the message origin to match it exactly. (Eg, `https://example.edu`)
 If this option is not set, the transport will only accept messages originating from the same origin.
 
