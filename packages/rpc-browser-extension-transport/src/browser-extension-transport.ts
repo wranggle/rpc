@@ -1,6 +1,5 @@
-import { RequestPayload, ResponsePayload, RpcTransport, LogActivity, DebugHandlerActivityData, DebugHandler } from "@wranggle/rpc-core/src/interfaces";
+import { RequestPayload, ResponsePayload, RpcTransport, LogActivity, DebugHandlerActivityData, DebugHandler } from "@wranggle/rpc-core";
 import * as chromeApi from './chrome-manifest-2-api';
-import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 type ChromeListener = (payload: (RequestPayload | ResponsePayload), sender: any) => void;
 
@@ -148,5 +147,3 @@ export default class BrowserExtensionTransport implements RpcTransport {
   }
 }
 
-
-registerTransport('browserExtension', (opts: BrowserExtensionTransportOpts) => new BrowserExtensionTransport(opts));

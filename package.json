@@ -3,11 +3,19 @@
   "description": "Combined repository for WranggleRpc and its bundled transports. Main functionality in rpc-core, main distribution in rpc-full",
   "author": "Jeff Ferber",
   "scripts": {
-    "test": "jest",
-    "clean": "lerna run clean",
-    "build": "lerna run build",
+    "build": "run-s clean:all build:core build:transports build:bundle",
     "push:version": "lerna version",
-    "npm:publish": "lerna publish from-git"
+    "npm:publish": "lerna publish from-git",
+
+    "clean:all": "lerna run clean",
+    "build:bundle": "lerna run bundle",
+    "build:core": "lerna run build:core",
+    "build:transports": "lerna run build:transport",
+
+    "test:unit": "jest --testPathIgnorePatterns \\.integration\\.test",
+    "test:integration": "jest --testPathPattern \\.integration\\.test",
+    "test:no-rebuild": "run-s test:unit test:integration",
+    "test": "run-s build test:no-rebuild"
   },
   "private": true,
   "workspaces": [

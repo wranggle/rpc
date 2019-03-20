@@ -1,4 +1,4 @@
-import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
 // @ts-ignore
 import kvid from 'kvid';
 

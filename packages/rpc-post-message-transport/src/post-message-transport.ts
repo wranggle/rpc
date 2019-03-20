@@ -1,5 +1,4 @@
-import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
-import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
 
 
 type WindowRef = any;
@@ -140,4 +139,3 @@ export default class PostMessageTransport implements RpcTransport {
   }
 }
 
-registerTransport('postMessage', (opts: PostMessageTransportOpts) => new PostMessageTransport(opts));

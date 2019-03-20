@@ -1,17 +1,8 @@
 // import WranggleRpc from '@wranggle/rpc-core';
-import {
-  DebugHandler, DebugHandlerActivityData,
-  LogActivity,
-  RequestPayload,
-  ResponsePayload,
-  RpcTransport
-} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
 // @ts-ignore
 import stringify from 'fast-safe-stringify';
 import ReconnectingWebSocket from './hacked-reconnecting-websocket/reconnecting-websocket';
-
-
-import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
 
 
 const WebSocketEventTypes = [ 'open', 'close', 'message', 'error' ];
@@ -219,7 +210,6 @@ function _extractRawPayloadString(eventOrData: any) {
 
 }
 
-registerTransport('websocket', (opts: WebSocketTransportOpts) => new WebSocketTransport(opts));
 
 
 interface WebSocket {

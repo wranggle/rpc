@@ -5,8 +5,7 @@ import { extractTransportOpts } from "./internal/transport-construction";
 import {DelegatedRequestHandlerOpts, IDict, RequestOpts, RpcTransport, RpcOpts, RemotePromise, NamedRequestHandlerOpts} from "./interfaces";
 // @ts-ignore
 import kvid from 'kvid';
-import {registerTransport} from "./transport-shortcut-registration";
-import LocalObserverTransport from "./local-observer-transport";
+import {registerTransport, getKnownTransportTypes } from "./transport-shortcut-registration";
 
 
 const DefaultRpcOpts = {
@@ -157,9 +156,8 @@ export default class WranggleRpc<T> {
   static registerTransport(transportType: string, transportFactory: (opts: any) => RpcTransport): void {
     registerTransport(transportType, transportFactory);
   }
-}
 
-export {
-  LocalObserverTransport,
+  static knownTransportTypes(): string[] {
+    return getKnownTransportTypes();
+  }
 }
-export * from './interfaces';

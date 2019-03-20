@@ -76,7 +76,7 @@ Each transport has its own configuration options. Take a look at the README for 
     ```
     Note: if your project is set up to use ES6 and *import* statements, see the [individual package](#Individual-Packages) distribution alternative below. 
 
-2. In each of your two JavaScript window/process endpoints, require or import  WranggleRpc:
+2. In each of your two JavaScript window/process endpoints, require or import WranggleRpc:
     ```javascript
     import { WranggleRpc } from '@wranggle/rpc'; 
     // or:
@@ -223,7 +223,6 @@ remote.withSugar(3, 'lumps');
 
 If using TypeScript, import and apply an interface during construction, where `new WranggleRpc<T>(opts)` gives you `remoteInterface(): T`. For example:
 ```javascript
-import { MainProcessMethods } from 'src/main/api/interfaces.ts';
 import { WranggleRpc } from '@wranggle/rpc';
 const rpc = new WranggleRpc<MainProcessMethods>(myOpts);
 const remote = rpc.remoteInterface(); // remote now has MainProcessMethods typings

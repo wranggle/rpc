@@ -1,5 +1,6 @@
 import {IDict, RpcTransport} from "./interfaces";
 
+const WranggleRpcRegistryAttrib = '__rpcTransportShortcuts__';
 
 export type TransportFactory = (opts: any) => RpcTransport;
 
@@ -7,15 +8,16 @@ export function registerTransport(transportType: string, transportFactory: Trans
   getTransportRegistry()[transportType] = transportFactory;
 }
 
-
-
-// am currently having build trouble... this registry belongs on @wranggle/rpc-core but importing it in a way that makes ts
-// happy is breaking jest and there's no time for configurations right now, so putting it on global for now.
-export function getTransportRegistry(container?: any): IDict<TransportFactory> {
-  if (typeof container !== 'object') {
-    // @ts-ignore
-    container = (global.wranggle = global.wranggle || {});
-  }
-  container.__rpcTransportShortcuts__ = container.__wranggleRpcTransportShortcuts__ || {};
-  return container.__rpcTransportShortcuts__;
+export function getKnownTransportTypes(): string[] {
+  return Object.keys(getTransportRegistry());
 }
+
+// Was thinking to keep the shortcut registration data in a required module's private variable, but having trouble with dist vs src imports (mainly with tests)
+// So leaving it on global for now, until that shakes out. note: can be changed easily later because the shortcut registration is internal and occurs before construction.
+export function getTransportRegistry(): IDict<TransportFactory> {
+  // @ts-ignore
+  global[WranggleRpcRegistryAttrib] = global[WranggleRpcRegistryAttrib] || {};
+  // @ts-ignore
+  return global[WranggleRpcRegistryAttrib];
+}
+

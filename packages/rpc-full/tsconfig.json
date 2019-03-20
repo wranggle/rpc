@@ -10,7 +10,9 @@
    "@wranggle/*": [
     "./*"
    ]
-  }
+  },
+  "sourceMap": false,
+  "inlineSourceMap": true
  },
  "include": [
   "./src"

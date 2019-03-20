@@ -2,23 +2,27 @@
   "name": "@wranggle/rpc-core",
   "version": "0.3.0",
   "description": "Core module for remote procedure calls",
-  "author": "Jeff Ferber <jeff@wranggle.com>",
+  "author": "Jeff Ferber",
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "build": "../../bin/build-standalone.js core",
+    "build:core": "../../bin/build-standalone.js core",
+    "build": "npm run build:core",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
   },
-  "main": "dist/cjs/core.js",
-  "module": "dist/es2015/core.js",
-  "types": "dist/es2015/core.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
   "files": [
     "dist"
   ],
   "publishConfig": {
     "access": "public"
+  },
+  "engines" : {
+    "node" : ">=8.0"
   },
   "dependencies": {
     "kvid": "^1.2.4"

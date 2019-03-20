@@ -4,23 +4,26 @@
   "description": "WranggleRpc transport for WebSocket clients and servers",
   "scripts": {
     "tsc": "tsc",
-    "test": "jest",
-    "build": "../../bin/build-standalone.js websocket-transport",
+    "test": "run-s build test:unit test:integration",
+    "test:unit": "jest --testPathIgnorePatterns",
+    "test:integration": "jest --testPathIgnorePatterns",
+    "build:transport": "../../bin/build-standalone.js websocket-transport",
+    "build": "npm run build:transport",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
   },
-  "main": "dist/cjs/websocket-transport.js",
-  "module": "dist/es2015/websocket-transport.js",
-  "types": "dist/es2015/websocket-transport.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
   "files": [
     "dist"
   ],
   "publishConfig": {
     "access": "public"
   },
-  "author": "Jeff Ferber <jeff@wranggle.com>",
-  "homepage": "https://github.com/wranggle/rpc#readme",
+  "author": "Jeff Ferber",
+  "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",

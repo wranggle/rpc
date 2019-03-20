@@ -5,27 +5,20 @@
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "build": "../../bin/build-standalone.js relay",
+    "build:transport": "../../bin/build-standalone.js relay",
+    "build": "npm run build:transport",    
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
   },
-  "main": "dist/cjs/relay.js",
-  "module": "dist/es2015/relay.js",
-  "types": "dist/es2015/relay.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
   "files": [
     "dist"
   ],
-  "author": "Jeff Ferber <jeff@wranggle.com>",
-  "dependencies": {
-    "kvid": "^1.2.4"
-  },
-  "devDependencies": {
-    "@types/node": "^11.9.5",
-    "@wranggle/rpc-core": "^0.3.0",
-    "ts-jest": "^24.0.0"
-  },
-  "homepage": "https://github.com/wranggle/rpc#readme",
+  "author": "Jeff Ferber",
+  "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "publishConfig": {
     "access": "public"
@@ -41,5 +34,13 @@
   },
   "bugs": {
     "url": "https://github.com/wranggle/rpc/issues"
+  },
+  "dependencies": {
+    "@wranggle/rpc-core": "^0.3.0",
+    "kvid": "^1.2.4"
+  },
+  "devDependencies": {
+    "@types/node": "^11.9.5",
+    "ts-jest": "^24.0.0"
   }
 }

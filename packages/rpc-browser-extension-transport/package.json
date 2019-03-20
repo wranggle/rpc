@@ -5,14 +5,15 @@
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "build": "../../bin/build-standalone.js browser-extension-transport",
+    "build:transport": "../../bin/build-standalone.js browser-extension-transport",
+    "build": "npm run build:transport",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
   },
-  "main": "dist/cjs/browser-extension-transport.js",
-  "module": "dist/es2015/browser-extension-transport.js",
-  "types": "dist/es2015/browser-extension-transport.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
   "files": [
     "dist"
   ],
@@ -36,8 +37,8 @@
     "chrome-extension",
     "browser-extension"
   ],
-  "author": "Jeff Ferber <jeff@wranggle.com>",
-  "homepage": "https://github.com/wranggle/rpc#readme",
+  "author": "Jeff Ferber",
+  "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "devDependencies": {
     "@types/chrome": "^0.0.81"

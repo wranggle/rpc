@@ -83,6 +83,3 @@ export default class LocalObserverTransport implements RpcTransport {
 function _isEventEmitter(obj: any): boolean {
   return typeof obj === 'object' && [ 'on', 'emit', 'removeListener' ].every(m => typeof obj[m] === 'function');
 }
-
-
-registerTransport('localObserver', (opts: LocalObserverTransportOpts) => new LocalObserverTransport(opts));

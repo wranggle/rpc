@@ -1,5 +1,4 @@
-import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core/src/interfaces";
-import {registerTransport} from "@wranggle/rpc-core/src/transport-shortcut-registration";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
 
 
 export interface ElectronTransportOpts {
@@ -121,8 +120,6 @@ function _isIpcSender(obj: any): boolean {
   return obj && typeof obj.send === 'function';
 }
 
-
-registerTransport('electron', (opts: ElectronTransportOpts) => new ElectronTransport(opts));
 
 
 type ElectronListener = (evt: any, data: any) => void; // todo: Electron types (for Event)

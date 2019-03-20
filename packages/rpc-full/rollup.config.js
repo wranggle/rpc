@@ -1,5 +1,4 @@
 const path = require('path');
-const ts = require('typescript');
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from 'rollup-plugin-commonjs';
 import includePaths from 'rollup-plugin-includepaths';
@@ -14,20 +13,20 @@ const packagesDir = path.join(rootDir, 'packages');
 
 
 export default {
-  // I gave up on the rollup plugin for typescript. Rollup must run after tsc compilation. (see commented typescript plugin code below)
-  input: 'out/@wranggle/rpc-full/src/wranggle-rpc.js',
-  // input: 'src/wranggle-rpc.ts',
+  input: 'out/@wranggle/index.js', // if tsc output switches to folders with "src" look for a bad export: 'out/@wranggle/rpc-full/src/wranggle-rpc.js',
   output: [
     {
-      file: 'dist/wranggle-rpc.min.js',
+      file: 'dist/wranggle-rpc.umd.min.js',
       format: 'umd',
       name: 'WranggleRpc',
       exports: 'named',
+      sourcemap: true,
     },
     {
       file: 'dist/wranggle-rpc.cjs.js',
       format: 'cjs',
-      exports: 'default'
+      exports: 'named',
+      sourcemap: true,
     }
   ],
   // todo: if any large-ish dependencies are added, will need to use external option, and/or the "jail" or "only" options on resolve plugin

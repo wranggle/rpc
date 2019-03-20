@@ -1,22 +1,23 @@
 {
   "name": "@wranggle/rpc-electron-transport",
   "version": "0.3.0",
-  "description": "WranggleRpc transport for Electron.js",
+  "description": "WranggleRpc transport for Electron",
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
-    "build": "../../bin/build-standalone.js electron-transport",
+    "build:transport": "../../bin/build-standalone.js electron-transport",
+    "build": "npm run build:transport",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
   },
-  "main": "dist/cjs/electron-transport.js",
-  "module": "dist/es2015/electron-transport.js",
-  "types": "dist/es2015/electron-transport.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
   "files": [
     "dist"
   ],
-  "author": "Jeff Ferber <jeff@wranggle.com>",
+  "author": "Jeff Ferber",
   "publishConfig": {
     "access": "public"
   },
@@ -31,7 +32,7 @@
     "electron",
     "wranggle-rpc-transport"
   ],
-  "homepage": "https://github.com/wranggle/rpc#readme",
+  "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/wranggle/rpc/issues"

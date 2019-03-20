@@ -1,10 +1,7 @@
 // import WranggleRpc from '@wranggle/rpc-core';
 import BrowserExtensionTransport from '../src/browser-extension-transport';
 import { fakeSender, FakeChromeExtensionId } from './test-support/fake-sender-support';
-import {
-  testTransportDebugHandlerReceive,
-  testTransportDebugHandlerSend
-} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
+import {testTransportDebugHandlerReceive, testTransportDebugHandlerSend} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
 import {DebugHandler, RequestPayload} from "@wranggle/rpc-core/src/interfaces";
 
 

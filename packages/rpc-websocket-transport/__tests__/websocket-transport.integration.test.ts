@@ -1,13 +1,15 @@
 const http = require('http');
 const WebSocket = require('ws');
 import { Server } from 'ws';
-import WranggleRpc from "@wranggle/rpc-core/src/core";
-import WebSocketTransport, {WebSocketTransportOpts} from "../src/websocket-transport";
+import WranggleRpc from "@wranggle/rpc-core";
+// import WebSocketTransport, {WebSocketTransportOpts} from "../src/websocket-transport";
+import WebSocketTransport, {WebSocketTransportOpts} from "@wranggle/rpc-websocket-transport";
 import MockLogger from "@wranggle/rpc-core/__tests__/test-support/mock-logger";
 import { buildDebugHandler } from "@wranggle/rpc-core/src/util/logging-support";
 
 
-describe('@wranggle/rpc-websocket-transport.ts', () => {
+// NOTE: must build @wranggle/rpc-core and @wranggle/rpc-websocket-transport before running this test
+describe('@wranggle/rpc-websocket-transport integration test', () => {
   let wsPort: number | null;
   let wss: Server;
   let httpServer;
@@ -21,9 +23,11 @@ describe('@wranggle/rpc-websocket-transport.ts', () => {
     wss.on('connection', (socket: any) => {
       lastServerSocket = socket;
       serverRpc = new WranggleRpc<any>({ 
-        websocket: { serverSocket: socket }
+        websocket: { serverSocket: socket,
+        }
       });
       serverRpc.addRequestHandler('hello', (val) => `Hello ${val}`);
+
     });
     httpServer.listen(() => {
       wsPort = httpServer.address().port;
