@@ -1,12 +1,12 @@
 {
   "name": "@wranggle/rpc-relay",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "WranggleRpc relay for bridging transports, when a message needs to hop across an intermediate window/process",
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
     "build:transport": "../../bin/build-standalone.js relay",
-    "build": "npm run build:transport",    
+    "build": "npm run build:transport",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
@@ -36,7 +36,7 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-core": "^0.3.0",
+    "@wranggle/rpc-core": "^0.3.1",
     "kvid": "^1.2.4"
   },
   "devDependencies": {

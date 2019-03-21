@@ -1,12 +1,12 @@
 {
   "name": "@wranggle/rpc-post-message-transport",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "WranggleRpc transport using window.postMessage for windows and iframes",
   "scripts": {
     "tsc": "tsc",
     "test": "jest",
     "build:transport": "../../bin/build-standalone.js post-message-transport",
-    "build": "npm run build:transport",    
+    "build": "npm run build:transport",
     "clean:dist": "rimraf dist/",
     "clean:out": "rimraf out/",
     "clean": "run-p clean:*"
@@ -37,12 +37,11 @@
   "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "dependencies": {
-    "@wranggle/rpc-core": "^0.3.0"
+    "@wranggle/rpc-core": "^0.3.1"
   },
   "devDependencies": {
     "@types/node": "^11.9.5",
     "@wranggle/rpc-core": "^0.3.0",
     "ts-jest": "^24.0.0"
   }
-
 }

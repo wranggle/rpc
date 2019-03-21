@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-core",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Core module for remote procedure calls",
   "author": "Jeff Ferber",
   "scripts": {
@@ -21,8 +21,8 @@
   "publishConfig": {
     "access": "public"
   },
-  "engines" : {
-    "node" : ">=8.0"
+  "engines": {
+    "node": ">=8.0"
   },
   "dependencies": {
     "kvid": "^1.2.4"
