@@ -26,6 +26,8 @@ export interface RelayOpts {
    */
   shouldRelay?: (payload: RequestPayload | ResponsePayload) => boolean;
 
+  // todo: optional function for changing channels
+
   debugHandler?: DebugHandler | false;
 }
 
@@ -43,11 +45,10 @@ export default class Relay {
       throw new Error('Relay requires two transports, "left" and "right"');
     }
     opts.relayId = opts.relayId || kvid(10);
-
     this._left = opts.left;
     this._right = opts.right;
+
     this.opts(opts);
-    this._shouldRelay = opts.shouldRelay;
     this.start(); // maybe an option to not start immediately
   }
 
@@ -57,6 +58,9 @@ export default class Relay {
     }
     if (opts.relayId) {
       this._relayId = opts.relayId
+    }
+    if (opts.debugHandler) {
+      this.debugHandler = opts.debugHandler;
     }
   }
 

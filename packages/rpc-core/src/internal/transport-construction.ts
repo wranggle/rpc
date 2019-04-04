@@ -39,8 +39,11 @@ export function extractTransportOpts(rpcOpts: Partial<RpcOpts>): Partial<RpcOpts
   if (rpcOpts.transport) {
     return rpcOpts;
   }
-  const transportType = Object.keys(rpcOpts).find(_hasTransportType);
-  const transportOpts = transportType && (<any>rpcOpts)[transportType];
+  const transportType = Object.keys(rpcOpts).find(transportType => _hasTransportType(transportType));
+  let transportOpts = transportType && (<any>rpcOpts)[transportType];
+  if (transportOpts === true) {
+    transportOpts = {};
+  }
   if (typeof transportOpts === 'object') {
     transportOpts.transportType = transportType;
     rpcOpts.transport = transportOpts;
