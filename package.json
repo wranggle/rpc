@@ -22,8 +22,8 @@
   "devDependencies": {
     "@types/jest": "^24.0.6",
     "@types/node": "^11.9.4",
-    "jest": "^24.1.0",
-    "lerna": "^3.15.0",
+    "jest": "^24.9.0",
+    "lerna": "^3.20.2",
     "lodash": "^4.17.14",
     "typescript": "^3.3.3"
   },
