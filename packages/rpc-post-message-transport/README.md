@@ -17,16 +17,16 @@ const { WranggleRpc, PostMessageTransport } = require('@wranggle/rpc');
 If you prefer using just the packages you need, the unbundled es6 is also available on NPM:
 
 ```bash
-yarn add @wranggle/rpc-core @wranggle/rpc-postmessage-transport
+yarn add @wranggle/rpc-core @wranggle/rpc-post-message-transport
 # or
-npm install @wranggle/rpc-core @wranggle/rpc-postmessage-transport 
+npm install @wranggle/rpc-core @wranggle/rpc-post-message-transport 
 ```
 
 
 Unbundled import:
 ```javascript
 import WranggleRpc from '@wranggle/rpc-core';
-import PostMessageTransport from '@wranggle/rpc-postmessage-transport';
+import PostMessageTransport from '@wranggle/rpc-post-message-transport';
 ```
 
 ### Construction
