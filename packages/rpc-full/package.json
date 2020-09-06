@@ -33,6 +33,7 @@
     "@wranggle/rpc-browser-extension-transport": "^0.3.2",
     "@wranggle/rpc-core": "^0.3.2",
     "@wranggle/rpc-electron-transport": "^0.3.1",
+    "@wranggle/rpc-ipc-transport": "^0.3.2",
     "@wranggle/rpc-post-message-transport": "^0.3.2",
     "@wranggle/rpc-relay": "^0.3.2",
     "@wranggle/rpc-websocket-transport": "^0.3.2"

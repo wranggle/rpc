@@ -1,7 +1,8 @@
 import WranggleRpc, { LocalObserverTransport, LocalObserverTransportOpts } from '@wranggle/rpc-core';
 import BrowserExtensionTransport, { BrowserExtensionTransportOpts } from '@wranggle/rpc-browser-extension-transport';
-import PostMessageTransport, {PostMessageTransportOpts} from '@wranggle/rpc-post-message-transport';
 import ElectronTransport, {ElectronTransportOpts} from '@wranggle/rpc-electron-transport';
+import IpcTransport, { IpcTransportOpts } from "@wranggle/rpc-ipc-transport";
+import PostMessageTransport, {PostMessageTransportOpts} from '@wranggle/rpc-post-message-transport';
 import WebSocketTransport, {WebSocketTransportOpts} from '@wranggle/rpc-websocket-transport';
 import Relay, {RelayOpts} from '@wranggle/rpc-relay';
 
@@ -11,6 +12,7 @@ export default WranggleRpc;
 export {
   BrowserExtensionTransport, BrowserExtensionTransportOpts,
   ElectronTransport, ElectronTransportOpts,
+  IpcTransport, IpcTransportOpts,
   PostMessageTransport, PostMessageTransportOpts,
   Relay, RelayOpts,
   WebSocketTransport, WebSocketTransportOpts,
@@ -21,6 +23,7 @@ export {
 Object.assign(WranggleRpc, {
   BrowserExtensionTransport,
   ElectronTransport,
+  IpcTransport,
   LocalObserverTransport,
   PostMessageTransport,
   Relay,
