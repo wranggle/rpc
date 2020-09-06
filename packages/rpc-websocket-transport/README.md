@@ -49,7 +49,10 @@ const rpc = new WranggleRpc({ transport });
 
 #### Client-side option: `websocketUrl`
 This option creates a new WebSocket connection using the [ReconnectingWebSocket](https://www.npmjs.com/package/reconnecting-websocket)
- library. 
+ library.
+
+**UPDATE** deprecated reconnecting-ws lib. Have something better but need to drop it in here. (Contact/ask if needed.) 
+   
  You can provide the URL as a string, a Promise resolving to one, or a function that returns one. 
 
  If you want to set options on ReconnectingWebSocket or create a socket some other way, use the `clientSocket` option.

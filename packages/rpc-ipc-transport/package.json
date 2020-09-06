@@ -1,0 +1,39 @@
+{
+  "name": "@wranggle/rpc-ipc-transport",
+  "version": "0.3.1",
+  "description": "WranggleRpc transport for Ipc",
+  "scripts": {
+    "tsc": "tsc",
+    "test": "jest",
+    "build:transport": "../../bin/build-standalone.js ipc-transport",
+    "build": "npm run build:transport",
+    "clean:dist": "rimraf dist/",
+    "clean:out": "rimraf out/",
+    "clean": "run-p clean:*"
+  },
+  "main": "dist/cjs/index.js",
+  "module": "dist/es2015/index.js",
+  "types": "dist/es2015/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "author": "Jeff Ferber",
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wranggle/rpc.git"
+  },
+  "keywords": [
+    "wranggle-rpc",
+    "rpc",
+    "ipc",
+    "wranggle-rpc-transport"
+  ],
+  "homepage": "https://github.com/wranggle/rpc",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/wranggle/rpc/issues"
+  }
+}

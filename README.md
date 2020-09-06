@@ -55,6 +55,7 @@ The main _@wranggle/rpc_ package ships with the following transports:
 
 * [BrowserExtensionTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-browser-extension-transport/): messaging over [chrome.runtime](https://developer.chrome.com/apps/runtime) or [chrome.tabs](https://developer.chrome.com/extensions/tabs) (for Firefox, Chromium, Edge browser extensions) 
 * [ElectronTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-electron-transport/): messaging over the [Electron.js](https://electronjs.org/docs/api) ipc system.
+* [IpcTransport](https://github.com/wranggle/rpc/tree/master/packages/ipc-transport/): messaging over [Node IPC](https://nodejs.org/api/child_process.html#child_process_child_process) communication channel.
 * [LocalObserverTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#LocalObserverTransport): messaging over any shared, standard EventEmitter. (When both WranggleRpc endpoints are in the same window/process.)
 * [PostMessageTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-post-message-transport/): messaging over window.postMessage. (When communicating across browser windows/iframes.)
 * [WebSocketTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-websocket-transport/): messaging over [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket). (Communicating between WebSocket client and server) 
