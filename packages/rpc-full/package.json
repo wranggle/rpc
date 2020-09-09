@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Call functions that live and run in a different JavaScript window/process",
   "main": "dist/wranggle-rpc.cjs.js",
   "browser": "dist/wranggle-rpc.umd.min.js",
@@ -30,13 +30,13 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-browser-extension-transport": "^0.3.2",
-    "@wranggle/rpc-core": "^0.3.2",
+    "@wranggle/rpc-browser-extension-transport": "^0.3.4",
+    "@wranggle/rpc-core": "^0.3.4",
     "@wranggle/rpc-electron-transport": "^0.3.1",
-    "@wranggle/rpc-ipc-transport": "^0.3.2",
-    "@wranggle/rpc-post-message-transport": "^0.3.2",
-    "@wranggle/rpc-relay": "^0.3.2",
-    "@wranggle/rpc-websocket-transport": "^0.3.2"
+    "@wranggle/rpc-ipc-transport": "^0.3.4",
+    "@wranggle/rpc-post-message-transport": "^0.3.4",
+    "@wranggle/rpc-relay": "^0.3.4",
+    "@wranggle/rpc-websocket-transport": "^0.3.4"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",
