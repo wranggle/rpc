@@ -1,3 +1,4 @@
+import stringify from 'fast-safe-stringify';
 import {DebugHandler, DebugHandlerActivityData, LogActivity} from "../interfaces";
 
 
@@ -86,7 +87,8 @@ export function buildDebugHandler(originator: string, opts: DebugHandler | Debug
 
 function _stringify(logger: Logger, data: any): string | void {
   try {
-    return JSON.stringify(data, null, 2);
+    // @ts-ignore
+    return stringify(data, null, 2);
   } catch (err) {
     logger.error('Default debugHandler encountered error stringifying data:', err);
   }

@@ -1,5 +1,5 @@
 import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
-import { EventEmitter } from "events";
+import stringify from 'fast-safe-stringify';
 
 
 export interface IpcTransportOpts {
@@ -17,7 +17,7 @@ export interface IpcTransportOpts {
 export default class IpcTransport implements RpcTransport {
   private _isStopped = false;
   private readonly ipc: any;
-  private _listenHandler?: (payload: RequestPayload | ResponsePayload) => void;
+  private _listenHandler?: (payloadJson: string) => void;
   endpointSenderId!: string | void;
   debugHandler?: DebugHandler | false;
 
@@ -30,8 +30,9 @@ export default class IpcTransport implements RpcTransport {
 
   listen(rpcHandler: (payload: (RequestPayload | ResponsePayload)) => void): void {
     this._removeExistingListener();
-    this._listenHandler = (payload: RequestPayload | ResponsePayload) => {
+    this._listenHandler = (payloadJson: string) => {
       if (!this._isStopped) {
+        const payload = payloadJson && JSON.parse(payloadJson);
         this._debug(LogActivity.TransportReceivingMessage, { payload });
         rpcHandler(payload);
       }
@@ -45,7 +46,7 @@ export default class IpcTransport implements RpcTransport {
       return;
     }
     this._debug(LogActivity.TransportSendingPayload, { payload });
-    this.ipc.send(payload);
+    this.ipc.send(stringify(payload));
   }
 
   stopTransport(): void {
