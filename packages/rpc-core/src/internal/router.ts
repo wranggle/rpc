@@ -44,6 +44,11 @@ export default class Router {
     // todo: send handshake message?
   }
 
+
+  stopEndpoint() {
+    this._stopped = true;
+  }
+
   stopTransport(): void {
     if (this.transport) {
       this.transport.stopTransport();

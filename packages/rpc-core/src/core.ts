@@ -144,7 +144,16 @@ export default class WranggleRpc<T> {
     const transport = this.getTransport();
     transport && transport.stopTransport();
   }
-  
+
+  /**
+   * Calling stopEndpoint tells the WranggleRpc instance to ignore new messages. Useful when multiple instances are sharing
+   *  the same transport (using different channels.)
+   */
+  stopEndpoint() {
+    this.router.stopEndpoint();
+  }
+
+
   getSenderId(): string {
     return this._rootOpts.senderId;
   }
