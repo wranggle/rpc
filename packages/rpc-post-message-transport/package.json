@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-post-message-transport",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "WranggleRpc transport using window.postMessage for windows and iframes",
   "scripts": {
     "tsc": "tsc",
@@ -37,7 +37,7 @@
   "homepage": "https://github.com/wranggle/rpc",
   "license": "Apache-2.0",
   "dependencies": {
-    "@wranggle/rpc-core": "^0.3.4"
+    "@wranggle/rpc-core": "^0.3.5"
   },
   "devDependencies": {
     "@types/node": "^11.9.5",

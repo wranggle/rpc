@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-browser-extension-transport",
-  "version": "0.3.4",
+  "version": "0.3.5",
   "description": "WranggleRpc transport for browser extensions",
   "scripts": {
     "tsc": "tsc",
@@ -28,7 +28,7 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-core": "^0.3.4"
+    "@wranggle/rpc-core": "^0.3.5"
   },
   "keywords": [
     "rpc",
