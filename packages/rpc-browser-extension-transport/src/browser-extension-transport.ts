@@ -1,4 +1,13 @@
-import { RequestPayload, ResponsePayload, RpcTransport, LogActivity, DebugHandlerActivityData, DebugHandler } from "@wranggle/rpc-core";
+import {
+  RequestPayload,
+  ResponsePayload,
+  RpcTransport,
+  RpcChannel,
+  LogActivity,
+  DebugHandlerActivityData,
+  DebugHandler,
+  TransportMessageHandler
+} from "@wranggle/rpc-core";
 import * as chromeApi from './chrome-manifest-2-api';
 
 type ChromeListener = (payload: (RequestPayload | ResponsePayload), sender: any) => void;
@@ -64,7 +73,7 @@ export default class BrowserExtensionTransport implements RpcTransport {
     this.debugHandler = opts.debugHandler;
   }
 
-  listen(onMessage: (payload: (RequestPayload | ResponsePayload)) => void): void {
+  listen(onMessage: TransportMessageHandler, channel: RpcChannel): void {
     if (typeof onMessage !== 'function') {
       throw new Error('Invalid message handler');
     }

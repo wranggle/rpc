@@ -1,13 +1,14 @@
 {
-  "extends": "./tsconfig.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
     "strict": false,
     "noImplicitAny": false,
     "noImplicitReturns": false,
-    "noUnusedLocals": false,
-    "lib": [ "dom", "es2015", "es2017" ],
-    "target": "es6",
-    "moduleResolution": "Node"
-  }
+    "noUnusedLocals": false
+  },
+  "include": [
+    "**/src/**/*",
+    "**/__tests__/**/*"
+  ]
 }

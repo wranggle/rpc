@@ -122,8 +122,7 @@ describe('@wranggle/rpc-core/flight-receipt', () => {
           setTimeout(() => {
             remotePromise.forceResolve('good');
           }, 20);
-          remotePromise.updateTimeout(10);
-          remotePromise.updateTimeout(30);
+          remotePromise.updateTimeout(50);
           await waitMs(40);
           const result = await remotePromise;
           expect(result).toBe('good');

@@ -2,14 +2,23 @@ import RemoteRequest from "./internal/remote-request";
 import Router from "./internal/router";
 import RequestHandler from "./internal/request-handler";
 import { extractTransportOpts } from "./internal/transport-construction";
-import {DelegatedRequestHandlerOpts, IDict, RequestOpts, RpcTransport, RpcOpts, RemotePromise, NamedRequestHandlerOpts} from "./interfaces";
+import {
+  DelegatedRequestHandlerOpts,
+  IDict,
+  RequestOpts,
+  RpcTransport,
+  RpcOpts,
+  RemotePromise,
+  NamedRequestHandlerOpts,
+  RpcChannel
+} from "./interfaces";
 // @ts-ignore
 import kvid from 'kvid';
 import {registerTransport, getKnownTransportTypes } from "./transport-shortcut-registration";
 
 
 const DefaultRpcOpts = {
-  channel: 'CommonChannel',
+  channel: 'CommonChannel' as RpcChannel,
   debug: { minimal: true },
 };
 
@@ -62,10 +71,11 @@ export default class WranggleRpc<T> {
   /**
    * Set the RpcTransport for sending and receiving messages.
    *
-   * @param transportOrOpts: an instantiated RpcTransport or a construction-shortcut for creating one. (see docs)
+   * @param transportOpts
+   * @param channel
    */
   useTransport(transportOpts: RpcTransport | object | string) {
-    this.router.useTransport(transportOpts);
+    this.router.useTransport(transportOpts, this._rootOpts.channel);
   }
 
   /**

@@ -1,7 +1,14 @@
+import pWaitFor from "p-wait-for";
 import Router from '../../src/internal/router';
 import RemoteRequest from '../../src/internal/remote-request';
 import {buildFakeRequestPayload, buildFakeResponsePayload, DefaultFakeChannel,} from "../test-support/fake-payload-support";
-import {RequestPayload, ResponsePayload, RpcTransport, EndpointInfo} from "../../src/interfaces";
+import {
+  RequestPayload,
+  ResponsePayload,
+  RpcTransport,
+  EndpointInfo,
+  TransportMessageHandler, RpcChannel
+} from "../../src/interfaces";
 
 
 describe('@wranggle/rpc-core/router', () => {
@@ -100,18 +107,19 @@ describe('@wranggle/rpc-core/router', () => {
         receiveFakeRequest('someMethod', 'badArg');
         const { promise, reject } = lastValidatedRequestReceived;
         const pendingRequestId = (transport.received[0] as RequestPayload).requestId;
-        setTimeout(() => reject('invalidArg'), 3);
+        setTimeout(() => reject('pretendingInvalidArg'), 3);
         let error;
         try {
-          const val = await promise;
+          await promise;
         } catch (err) {
           error = err;
         }
-        expect(error).toBe('invalidArg');
-        expect(transport.sent.length).toBe(1);
+        expect(error).toEqual('pretendingInvalidArg');
+        await pWaitFor(() => transport.sent.length === 1);
+        expect(transport.sent).toHaveLength(1);
         const payload = transport.sent[0] as ResponsePayload;
         expect(payload.respondingTo).toBe(pendingRequestId);
-        expect(payload.error).toEqual('invalidArg');
+        expect(payload.error).toEqual('pretendingInvalidArg');
       });
 
       test('ignore duplicate requests', () => {
@@ -244,8 +252,8 @@ class MockTransport implements RpcTransport {
   endpointSenderId!: string | void;
 
   // IRpcTransport methods:
-  listen(onMessage: (payload: Payload) => void): void {
-    this._onMessage = onMessage;
+  listen(msgHandler: TransportMessageHandler, channel: RpcChannel): void {
+    this._onMessage = msgHandler;
   }
   sendMessage(payload: Payload): void {
     this.sent.push(payload);

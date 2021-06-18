@@ -53,13 +53,16 @@ WranggleRpc is a candy-coating for the message-passing you're already using. In 
      
 The main _@wranggle/rpc_ package ships with the following transports:
 
-* [BrowserExtensionTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-browser-extension-transport/): messaging over [chrome.runtime](https://developer.chrome.com/apps/runtime) or [chrome.tabs](https://developer.chrome.com/extensions/tabs) (for Firefox, Chromium, Edge browser extensions) 
+* [BrowserExtensionTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-browser-extension-transport/): messaging over [chrome.runtime](https://developer.chrome.com/apps/runtime) or [chrome.tabs](https://developer.chrome.com/extensions/tabs) (for Firefox, Chromium, Edge browser extensions)
+    * **UPDATE**: not currently maintained. Chromium ecosystem is troubled--manifest v3 changes and Google store policy changes; am avoiding browser extensions.  
 * [ElectronTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-electron-transport/): messaging over the [Electron.js](https://electronjs.org/docs/api) ipc system.
+    * **UPDATE**: not currently maintained (but should be fine)
 * [IpcTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-ipc-transport/): messaging over [Node IPC](https://nodejs.org/api/child_process.html#child_process_child_process) communication channel.
 * [LocalObserverTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#LocalObserverTransport): messaging over any shared, standard EventEmitter. (When both WranggleRpc endpoints are in the same window/process.)
 * [PostMessageTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-post-message-transport/): messaging over window.postMessage. (When communicating across browser windows/iframes.)
 * [WebSocketTransport](https://github.com/wranggle/rpc/tree/master/packages/rpc-websocket-transport/): messaging over [WebSocket](https://developer.mozilla.org/en-US/docs/Web/API/WebSocket). (Communicating between WebSocket client and server) 
-
+    * **UPDATE**: out of date. Current version here has problems; improvements not yet backported to this repo. 
+  
 Additionally, a [Relay](https://github.com/wranggle/rpc/tree/master/packages/rpc-relay) can be used as a bridge between any two transports, when a message needs to hop across an intermediate window/process. You can also create your own [custom transport](https://github.com/wranggle/rpc/tree/master/packages/rpc-core/#Custom-Transport). 
 
 Each transport has its own configuration options. Take a look at the README for each of the ones you use.

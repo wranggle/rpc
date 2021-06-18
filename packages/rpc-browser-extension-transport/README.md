@@ -1,5 +1,7 @@
 # BrowserExtensionTransport
 
+**DEPRECATED: {old/buggy; todo: drop in newer from cannery}**
+
 A WranggleRpc transport for browser extensions, sending and receiving messages over either [chrome.runtime](https://developer.chrome.com/apps/runtime) or [chrome.tabs](https://developer.chrome.com/extensions/tabs).
 
 Firefox and Edge also support these Chromium APIs. 

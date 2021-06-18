@@ -33,7 +33,7 @@ describe('@wranggle/rpc-core/local-observer-transport', () => {
     expect(testData.aa).toBe(11);
   });
 
-  testTransportDebugHandlerSend((debugHandler: DebugHandler, payload: RequestPayload) => {
+  testTransportDebugHandlerSend((debugHandler: DebugHandler, payload: RequestPayload|ResponsePayload) => {
     const transport = new LocalObserverTransport({
       observer: new EventEmitter(),
       messageEventName: 'someObserverEvent',
@@ -42,7 +42,7 @@ describe('@wranggle/rpc-core/local-observer-transport', () => {
     transport.sendMessage(payload);
   }, [ 'someObserverEvent' ]);
 
-  testTransportDebugHandlerReceive((debugHandler: DebugHandler, payload: ResponsePayload) => {
+  testTransportDebugHandlerReceive((debugHandler: DebugHandler, payload: RequestPayload|ResponsePayload) => {
     const observer = new EventEmitter();
     const transport = new LocalObserverTransport({
       observer, debugHandler

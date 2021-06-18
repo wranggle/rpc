@@ -1,4 +1,4 @@
-import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
+import {DebugHandler, DebugHandlerActivityData, LogActivity, RpcChannel, RequestPayload, ResponsePayload, RpcTransport, TransportMessageHandler} from "@wranggle/rpc-core";
 
 
 export interface ElectronTransportOpts {
@@ -68,7 +68,7 @@ export default class ElectronTransport implements RpcTransport {
 
   }
 
-  listen(rpcHandler: (payload: (RequestPayload | ResponsePayload)) => void): void {
+  listen(rpcHandler: TransportMessageHandler, channel: RpcChannel): void {
     this._removeExistingListener();
     this._listenHandler = (payload: RequestPayload | ResponsePayload) => {
       if (!this._isStopped) {

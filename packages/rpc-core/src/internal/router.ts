@@ -1,7 +1,23 @@
 import RemoteRequest from "./remote-request";
 import {buildTransport} from "./transport-construction";
-import {IDict, RequestPayload, ResponsePayload, RemotePromise, RpcOpts, RpcTransport, ConnectionStatus, ConnectionStatusOpts, EndpointInfo, DebugHandler, LogActivity, DebugHandlerActivityData} from "../interfaces";
+import {
+  IDict,
+  RequestPayload,
+  ResponsePayload,
+  RemotePromise,
+  RpcOpts,
+  RpcTransport,
+  ConnectionStatus,
+  ConnectionStatusOpts,
+  EndpointInfo,
+  DebugHandler,
+  LogActivity,
+  DebugHandlerActivityData,
+  RpcChannel
+} from "../interfaces";
 import {buildDebugHandler} from "../util/logging-support";
+// @ts-ignore
+import kvid from "kvid";
 
 
 const Protocol = 'WranggleRpc-1';
@@ -34,13 +50,13 @@ export default class Router {
     this._onValidatedRequest = opts.onValidatedRequest;
   }
 
-  useTransport(transportOpts: RpcTransport | object | string) {
+  useTransport(transportOpts: RpcTransport | object | string, channel: RpcChannel) {
     const transport = this.transport = buildTransport(transportOpts);
-    transport.endpointSenderId = this.senderId;
+    transport.endpointSenderId = transport.endpointSenderId || `transport:${kvid(12)}`; // only used for debug output. todo: rename endpointSenderId to transportUid
     if (transport.debugHandler === void(0)) {
       transport.debugHandler = buildDebugHandler(transport.constructor.name, this._rootOpts.debug);
     }
-    transport.listen(this._onMessage.bind(this));
+    transport.listen(this._onMessage.bind(this), channel);
     // todo: send handshake message?
   }
 
@@ -82,7 +98,7 @@ export default class Router {
 
   routerOpts(opts: Partial<RpcOpts>) {
     this._rootOpts = Object.assign(this._rootOpts, opts);
-    opts.transport && this.useTransport(opts.transport);
+    opts.transport && this.useTransport(opts.transport, this.channel);
     if (typeof opts.preparseAllIncomingMessages === 'function') {
       this._preparseFilters.push(opts.preparseAllIncomingMessages);
     }
@@ -99,8 +115,8 @@ export default class Router {
     return this._rootOpts.senderId;
   }
 
-  get channel() {
-    return this._rootOpts.channel;
+  get channel(): RpcChannel {
+    return this._rootOpts.channel as RpcChannel;
   }
   
   private _onMessage(payload: any): void {

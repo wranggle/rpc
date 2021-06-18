@@ -6,7 +6,7 @@ export interface RpcOpts {
   /**
    * Channel name or id. Unless the remote endpoint uses the exact same *channel* value, WranggleRpc will ignore its remote requests. *channel*.
    */
-  channel: string;
+  channel: RpcChannel;
 
   /**
    * A default
@@ -78,6 +78,8 @@ export interface RpcOpts {
   websocket: TransportConstructionOpts,
 }
 type TransportConstructionOpts = any;
+
+export type RpcChannel = string;
 
 export interface IDict<T> {
   [key: string]: T;
@@ -172,18 +174,25 @@ export interface RequestOpts {
   rsvp?: boolean;
 }
 
-
+export type TransportMessageHandler = (payload: RequestPayload | ResponsePayload) => void;
 /**
  * Shortcut to setting up both messageSender and messageReceiver
  */
 export interface RpcTransport {
   sendMessage(payload: RequestPayload | ResponsePayload): void;
 
-  listen(onMessage: (payload: RequestPayload | ResponsePayload) => void): void;
+  listen(msgHandler: TransportMessageHandler, channel: RpcChannel): void;
 
   stopTransport(): void;
 
   endpointSenderId: string | void;
+
+  /**
+   * Multiplexing transports (ones where a single transport is shared by many WranggleRpc endpoints) will offer removeEndpointHandler
+   *
+   * @param channel
+   */
+  removeEndpointHandler?: (channel: RpcChannel) => void;
 
   debugHandler?: DebugHandler | false;
   // todo: reportDisconnect? connection status? decide where to keep features like heartbeat

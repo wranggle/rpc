@@ -1,4 +1,12 @@
-import {DebugHandler, DebugHandlerActivityData, LogActivity, RequestPayload, ResponsePayload, RpcTransport} from "@wranggle/rpc-core";
+import {
+  DebugHandler,
+  DebugHandlerActivityData,
+  LogActivity,
+  RequestPayload,
+  ResponsePayload, RpcChannel,
+  RpcTransport,
+  TransportMessageHandler
+} from "@wranggle/rpc-core";
 
 
 type WindowRef = any;
@@ -76,7 +84,7 @@ export default class PostMessageTransport implements RpcTransport {
     this._opts = opts;
   }
 
-  listen(rpcHandler: (payload: (RequestPayload | ResponsePayload)) => void): void {
+  listen(rpcHandler: TransportMessageHandler, channel: RpcChannel): void {
     this._removeExistingListener();
     // @ts-ignore
     let shouldReceive = this._opts.shouldReceive || global.location.origin;

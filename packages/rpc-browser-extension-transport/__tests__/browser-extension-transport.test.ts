@@ -3,6 +3,7 @@ import BrowserExtensionTransport from '../src/browser-extension-transport';
 import { fakeSender, FakeChromeExtensionId } from './test-support/fake-sender-support';
 import {testTransportDebugHandlerReceive, testTransportDebugHandlerSend} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
 import {DebugHandler, RequestPayload} from "@wranggle/rpc-core/src/interfaces";
+import { ResponsePayload } from "@wranggle/rpc-core";
 
 
 jest.mock('../src/chrome-manifest-2-api.ts', () => _setupCustomMock());
@@ -86,12 +87,12 @@ describe('@wranggle/rpc-browser-extension-transport', () => {
     expect(!!lastReceived).toBe(false);
   });
 
-  testTransportDebugHandlerSend((debugHandler: DebugHandler, payload: RequestPayload) => {
+  testTransportDebugHandlerSend((debugHandler: DebugHandler, payload: RequestPayload|ResponsePayload) => {
     const transport = new BrowserExtensionTransport({ debugHandler, forTabId: 9 });
     transport.sendMessage(payload);
   }, [ '"sendToTabId": 9', '"receiveFromTabId": 9' ]);
 
-  testTransportDebugHandlerReceive((debugHandler: DebugHandler, payload: RequestPayload) => {
+  testTransportDebugHandlerReceive((debugHandler: DebugHandler, payload: RequestPayload|ResponsePayload) => {
     const transport = new BrowserExtensionTransport({ debugHandler });
     transport.endpointSenderId = 'myBrowserTransportId003'
     fakeReceive(transport, { something: 'received321' }, fakeSender(4));

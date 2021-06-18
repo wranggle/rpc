@@ -143,7 +143,7 @@ describe('@wranggle/rpc-core/request-handler', () => {
     });
 
     test('await callback when useCallback option present', async () => {
-      const handler = (letter: string, cb: (err, result) => void) => {
+      const handler = (letter: string, cb: (err: any, result: any) => void) => {
         setTimeout(() => cb(null, `${letter}${letter}!`), 5);
       };
       requestHandler.addRequestHandler('oldschool', handler, { useCallback: true });

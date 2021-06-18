@@ -28,7 +28,7 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-core": "^0.3.5"
+    "@wranggle/rpc-core": "^0.4.0"
   },
   "keywords": [
     "rpc",

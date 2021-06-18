@@ -1,7 +1,6 @@
 import WranggleRpc from '../../src/core';
 import {RequestPayload} from "../../src/interfaces";
-import {ResponsePayload, RpcTransport, EndpointInfo} from "rpc-core/src/interfaces";
-import { EventEmitter } from 'events';
+import { ResponsePayload, RpcTransport } from "../../src/interfaces";
 import {extractTransportOpts} from "../../src/internal/transport-construction";
 
 
@@ -83,7 +82,7 @@ class SomeTransport implements RpcTransport {
     this.constructorOpts = opts;
   }
 
-  listen(onMessage: (payload: (RequestPayload | ResponsePayload)) => void): void {
+  listen(onMessage: (payload: (RequestPayload | ResponsePayload), channel: RpcTransport) => void): void {
   }
 
   sendMessage(payload: RequestPayload | ResponsePayload): void {
