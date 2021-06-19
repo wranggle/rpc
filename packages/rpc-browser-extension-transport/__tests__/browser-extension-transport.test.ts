@@ -37,7 +37,7 @@ describe('@wranggle/rpc-browser-extension-transport', () => {
   };
   const fakeReceive = (transport: BrowserExtensionTransport, payload: any, sender: any) => {
     if (!fakeChromeListener) {
-      transport.listen((payload: any) => lastReceived = payload);
+      transport.listen((payload: any) => lastReceived = payload, 'someChannel_transportNotShared');
     }
     fakeChromeListener(payload, sender);
   };

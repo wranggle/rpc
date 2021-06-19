@@ -1,5 +1,5 @@
 import ElectronTransport, {ElectronTransportOpts} from '../src/electron-transport';
-import {DebugHandler, RequestPayload, ResponsePayload} from "@wranggle/rpc-core/src/interfaces";
+import {DebugHandler, RequestPayload, ResponsePayload, RpcChannel} from "@wranggle/rpc-core/src/interfaces";
 import { EventEmitter } from 'events';
 import {buildFakeRequestPayload} from "@wranggle/rpc-core/__tests__/test-support/fake-payload-support";
 import {testTransportDebugHandlerReceive, testTransportDebugHandlerSend} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
@@ -30,7 +30,7 @@ describe('@wranggle/rpc-core/local-observer-transport', () => {
     });
     transport.listen((payload: RequestPayload | ResponsePayload) => {
       lastReceived = payload;
-    })
+    }, ChannelForTest)
   });
 
 

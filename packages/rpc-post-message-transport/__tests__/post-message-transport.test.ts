@@ -1,5 +1,5 @@
 // import WranggleRpc from 'rpc-core/src/core';
-import {RequestPayload, IDict, ResponsePayload, DebugHandler} from "@wranggle/rpc-core/src/interfaces";
+import {RequestPayload, IDict, ResponsePayload, DebugHandler, RpcChannel} from "@wranggle/rpc-core/src/interfaces";
 import PostMessageTransport, {PostMessageTransportOpts} from "../src/post-message-transport";
 import { EventEmitter } from 'events';
 import {testTransportDebugHandlerReceive, testTransportDebugHandlerSend} from "@wranggle/rpc-core/__tests__/test-support/shared-debug-handler-behavior";
@@ -34,7 +34,7 @@ describe('@wranggle/rpc-post-message-transport', () => {
       const transport = buildMockWindowAndTransport({ shouldReceive });
       transport.listen((payload: RequestPayload | ResponsePayload) => {
         lastMessage = payload;
-      });
+      }, 'notUsedInPostMessageTransport' as RpcChannel);
       return transport;
     };
 

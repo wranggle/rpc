@@ -1,15 +1,18 @@
 {
- "extends": "../../tsconfig.base.json",
- "compilerOptions": {
-  "rootDir": "./src",
-  "outDir": "./out",
-  "paths": {
-   "src/*": [ "./src/*" ],
-   "packages": [ "../*" ]
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist",
+    "paths": {
+      "src/*": [ "./src/*" ],
+      "packages": [ "../*" ]
+    },
+    "noImplicitAny": false
   },
-  "moduleResolution": "Node"
- },
- "include": [
-   "./src"
- ]
+  "include": [
+    "**/src/**/*",
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }
