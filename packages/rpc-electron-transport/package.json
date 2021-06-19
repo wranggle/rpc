@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-electron-transport",
-  "version": "0.3.1",
+  "version": "0.4.0-alpha.0",
   "description": "WranggleRpc transport for Electron",
   "scripts": {
     "tsc": "tsc",
@@ -38,6 +38,6 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-core": "^0.4.0"
+    "@wranggle/rpc-core": "^0.4.1"
   }
 }

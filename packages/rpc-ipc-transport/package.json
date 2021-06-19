@@ -1,6 +1,6 @@
 {
   "name": "@wranggle/rpc-ipc-transport",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "WranggleRpc transport for Ipc",
   "scripts": {
     "tsc": "tsc -p tsconfig.build.json",
@@ -37,7 +37,7 @@
     "url": "https://github.com/wranggle/rpc/issues"
   },
   "dependencies": {
-    "@wranggle/rpc-core": "^0.4.0",
+    "@wranggle/rpc-core": "^0.4.1",
     "fast-safe-stringify": "^2.0.7"
   }
 }
